@@ -1,0 +1,10 @@
+auth:
+  key: a2a520cf51a34a628fc857a6d859e812
+  email: xxx@qq.com
+  zones: 
+    - 
+      name: example1.com
+      id: 7a6d859e812
+    - 
+      name: example2.com
+      id: 4a628fc8531
