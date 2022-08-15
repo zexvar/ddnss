@@ -4,6 +4,8 @@ SQLALCHEMY_TRACK_MODIFICATIONS: False
 SQLALCHEMY_ECHO: True
 
 AUTH:
-  KEY: a2a520cf51a34a628fc857a6d859e812
-  EMAIL: xxx@qq.com
-  ZONE: example.com
+  key: a2a520cf51a34a628fc857a6d859e812
+  email: xxx@qq.com
+  zone:
+    id: fc857a4a6282ca3a520f51a6d859e812
+    name: example.com
