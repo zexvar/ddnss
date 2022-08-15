@@ -1,6 +1,5 @@
-from app import *
+from app import create_app
 
 if __name__ == '__main__':
-    app = create_app(app)
-    app = config_app(app)
-    app.run(host='::', port=8000, debug=True)
+    app = create_app()
+    app.run(host='::', debug=True)

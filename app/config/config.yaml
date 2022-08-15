@@ -1,0 +1,9 @@
+#SQLALCHEMY_DATABASE_URI: sqlite:///app.db
+SQLALCHEMY_DATABASE_URI: mysql+pymysql://root:123456@localhost:3306/ddns
+SQLALCHEMY_TRACK_MODIFICATIONS: False
+SQLALCHEMY_ECHO: True
+
+AUTH:
+  KEY: a2a520cf51a34a628fc857a6d859e812
+  EMAIL: xxx@qq.com
+  ZONE: example.com
