@@ -4,3 +4,4 @@ PyMySQL
 PyYAML
 requests
 urllib3
+gunicorn
