@@ -48,4 +48,7 @@ def update_record(host):
                         'msg': 'Operation succeed!' if status else 'Operation failed!',
                         'data': {'host': record.host, 'ip': record.ip}
                         })
-    return jsonify({'code': 0, 'msg': 'The current record is up to date!'})
+    return jsonify({'code': 0,
+                    'msg': 'The current record is up to date!',
+                    'data': {'host': record.host, 'ip': record.ip}
+                    })
