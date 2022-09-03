@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+
+
+{% block container %}
+    <table class="table">
+        <caption>Operation history recent 100.</caption>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Host</th>
+            <th>Success</th>
+            <th>Time</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for history in history_list %}
+            <tr>
+                <td>{{ history.id }}</td>
+                <td>{{ history.host }}</td>
+                <td>{{ history.status }}</td>
+                <td>{{ history.create_time }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

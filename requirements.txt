@@ -5,3 +5,5 @@ PyYAML
 requests
 urllib3
 gunicorn
+flask_bootstrap
+SQLAlchemy

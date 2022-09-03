@@ -14,7 +14,8 @@ Server -> This project -> Cloudflare API
   pip install -r requirements.txt
   # 修改配置文件
   vim app/config/config.yaml
-  gunicorn -b [::]:port run:app
+  # gunicorn -b [::]:port run:app
+  ./run.sh
   # 初始化数据库
   curl http://[your server ip]:port/init
   ```
