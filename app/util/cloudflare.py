@@ -45,7 +45,7 @@ class Cloudflare:
             "proxied": False
         }
         try:
-            resp = requests.put(url, headers=cls.headers, data=data, verify=False).text
+            resp = requests.put(url, headers=cls.headers, data=json.dumps(data), verify=False).text
             status = json.loads(resp)["success"]
             return True if status else False
         except Exception:
