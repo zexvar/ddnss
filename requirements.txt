@@ -3,7 +3,7 @@ Flask_SQLAlchemy
 PyMySQL
 PyYAML
 requests
-urllib3
+gevent
 gunicorn
 flask_bootstrap
 SQLAlchemy

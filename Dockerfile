@@ -1,5 +1,5 @@
 FROM python:slim-bullseye
-WORKDIR ./DDNS_Cloudflare
+WORKDIR ./opt/ddns
 ADD . .
 RUN pip install -r requirements.txt
-CMD ["gunicorn", "-b", "[::]:5000", "run:app"]
+CMD ["gunicorn", "run:app", "-c", "gunicorn.py"]
