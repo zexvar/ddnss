@@ -1,12 +1,15 @@
+import yaml
 from flask import Flask
 
-from app.exts import bp, db, config, bootstrap
+from app import util
+from app.exts import sqlalchemy, blueprint, bootstrap
 
 
 def create_app():
-    app = Flask(__name__, static_url_path='')
-    bootstrap.init_app(app)
-    config.init_app(app)
-    db.init_app(app)
-    bp.init_app(app)
+    app = Flask(__name__)
+    app.config.update(yaml.full_load(open('config.yaml', 'r')))
+    sqlalchemy.init(app)
+    blueprint.init(app)
+    bootstrap.init(app)
+    util.init(app)
     return app

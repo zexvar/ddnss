@@ -3,5 +3,5 @@ from flask_bootstrap import Bootstrap
 bootstrap = Bootstrap()
 
 
-def init_app(app):
+def init(app):
     bootstrap.init_app(app)

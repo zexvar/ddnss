@@ -4,6 +4,5 @@ import pymysql
 db = SQLAlchemy()
 
 
-def init_app(app):
-    global db
+def init(app):
     db.init_app(app)

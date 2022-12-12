@@ -1,0 +1,9 @@
+#SQLALCHEMY_DATABASE_URI: sqlite:///app.db
+SQLALCHEMY_DATABASE_URI: mysql+pymysql://root:123456@127.0.0.1:3306/ddns
+SQLALCHEMY_TRACK_MODIFICATIONS: False
+SQLALCHEMY_ECHO: True
+
+cloudflare:
+  token: your cloudflare token
+  zone_id: your zone id
+  zone_name: example.com

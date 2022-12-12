@@ -1,12 +1,12 @@
 from flask import Blueprint, request, render_template
 from sqlalchemy import desc
 
-from app.entity.History import History
+from app.entity.history import History
 
-history_bp = Blueprint('history_bp', __name__, url_prefix='/history')
+history_bp = Blueprint('history_bp', __name__)
 
 
-@history_bp.route('/')
+@history_bp.route('/history')
 def history_top100():
     # 分页显示
     page = request.args.get('page', 1, type=int)

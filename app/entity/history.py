@@ -1,4 +1,4 @@
-from app.exts.db import db
+from app.exts.sqlalchemy import db
 from datetime import datetime
 
 

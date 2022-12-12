@@ -3,9 +3,9 @@ import os
 
 
 # 自动注册蓝图
-def init_app(app):
+def init(app):
     for d in os.listdir('app/service/'):
-        if d.endswith("Service.py"):
+        if d.endswith("_service.py"):
             services = importlib.import_module('app.service.' + d.replace('.py', ''))
             for obj in dir(services):
                 if obj.endswith('_bp'):
