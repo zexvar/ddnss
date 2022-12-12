@@ -13,7 +13,9 @@ app = current_app
 @record_bp.route("/<host>")
 def update_record(host):
     # 获取客户端ip
-    new_ip = request.remote_addr
+    new_ip = request.headers.get('X-Real-IP')
+    if new_ip is None:
+        new_ip = request.remote_addr
 
     # 查询record是否存在
     record = Record.query.filter(Record.host == host).first()
