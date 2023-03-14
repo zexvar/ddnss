@@ -2,15 +2,15 @@ from flask import Blueprint, current_app, jsonify, request
 
 from app.entity.history import History
 from app.entity.record import Record
-from app.exts.sqlalchemy import db
+from app.extension.sqlalchemy import db
 from app.util.cloudflare import Cloudflare
 
-record_bp = Blueprint('record_bp', __name__, url_prefix='/dns')
+bp = Blueprint('dns', __name__, url_prefix='/dns')
 
 app = current_app
 
 
-@record_bp.route("/<host>")
+@bp.route("/<host>")
 def update_record(host):
     # 获取客户端ip
     new_ip = request.headers.get('X-Real-IP')

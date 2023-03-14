@@ -3,10 +3,10 @@ from sqlalchemy import desc
 
 from app.entity.history import History
 
-history_bp = Blueprint('history_bp', __name__)
+bp = Blueprint('history', __name__, url_prefix='/history')
 
 
-@history_bp.route('/history')
+@bp.route('/')
 def history_top100():
     # 分页显示
     page = request.args.get('page', 1, type=int)

@@ -2,7 +2,7 @@ import yaml
 from flask import Flask
 
 from app import util
-from app.exts import sqlalchemy, blueprint, bootstrap
+from app.extension import sqlalchemy, blueprint, bootstrap
 
 
 def create_app():
