@@ -15,7 +15,7 @@ Client => DDNS_Cloudflare => Cloudflare API
 3. 运行程序
     ```shell
     # 修改配置文件
-    vim config.yaml
+    vim config.yml
     # gunicorn -b [::]:port run:app
     ./run.sh
     # 初始化数据库
@@ -27,9 +27,9 @@ Client => DDNS_Cloudflare => Cloudflare API
 2. 打包为docker镜像 `docker build -t ddns:latest .`
 3. 运行容器
     ```shell
-   # config.yaml 需提前创建
+   # config.yml 需提前创建
    docker run -d --name=ddns \
-   -v /opt/ddns/config.yaml:/opt/ddns/config.yaml \
+   -v /opt/ddns/config.yml:/opt/ddns/config.yml \
    --restart=always \
    --network=host \
    ddns:latest
@@ -55,15 +55,15 @@ Client => DDNS_Cloudflare => Cloudflare API
     ```
 4. 运行容器
     ```shell
-   # config.yaml 需提前创建
+   # config.yml 需提前创建
    docker run -d --name=ddns \
-   -v /opt/ddns/config.yaml:/opt/ddns/config.yaml \
+   -v /opt/ddns/config.yml:/opt/ddns/config.yml \
    -p 5000:5000 \
    --restart=always \
    ddns:latest
     ```
 ### 客户端进行DDNS服务
 > 请求携带key即为开启认证，之后所有请求都需要携带相同key
-- 不进行身份验证 curl http://127.0.0.1:5000/dns/www
-- 开启身份验证 curl http://127.0.0.1:5000/dns/www?key=123456
+- 不进行身份验证 curl http://127.0.0.1:5000/ddns/www
+- 开启身份验证 curl http://127.0.0.1:5000/ddns/www?key=123456
 - 利用crontab设置 `*/5 * * * * curl http://ddns.example.work:5000/dns/* > /ddns.log 2>&1`

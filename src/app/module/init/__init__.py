@@ -2,11 +2,12 @@ import importlib
 import os
 
 from flask import Blueprint, jsonify
-from app.extension.sqlalchemy import db
-bp = Blueprint('database', __name__)
+from app.exts import db
+
+bp = Blueprint('database', __name__, url_prefix='/init')
 
 
-@bp.route("/init")
+@bp.route("/")
 def init_db():
     entities = []
     for d in os.listdir('app/entity/'):
