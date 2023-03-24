@@ -11,6 +11,4 @@ def history_top100():
     # 分页显示
     page = request.args.get('page', 1, type=int)
     history_list = History.query.order_by(desc(History.create_time)).limit(100).all()
-
-    print(history_list)
     return render_template('history.html', history_list=history_list)
