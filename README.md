@@ -1,15 +1,14 @@
-# DDNS Cloudflare
-
+# DDNSS
+## DDNS Server
 ### 项目介绍
 
-- 此项目仅支持 ipv6 DDNS
+- 此项目仅支持 Ipv6 DDNS
 - 此项目仅支持 Cloudflare 管理的域名
 - 此项目为了简化多主机进行 DDNS 的操作配置
-- 仅需在服务提供机器设置 Cloudflare 令牌
 
 ### 基本流程
 
-Client => DDNS_Cloudflare => Cloudflare API
+Client -> DDNSS -> Cloudflare
 
 ### 项目服务端部署
 
