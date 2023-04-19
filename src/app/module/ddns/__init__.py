@@ -3,14 +3,16 @@ from flask import Blueprint, current_app, jsonify, request
 from app.entity.history import History
 from app.entity.record import Record
 from app.exts import db
-from app.util.cloudflare import Cloudflare
+from app.util import response
+from . import cloudflare
 
 bp = Blueprint('ddns', __name__, url_prefix='/ddns')
 
 
 @bp.route("/<host>")
 def update_record(host):
-    Cloudflare.load(current_app.config['cloudflare'])
+    if not cloudflare.Conf.init:
+        cloudflare.init(current_app.config['cloudflare'])
 
     # 获取客户端ip
     new_ip = request.headers.get('X-Real-IP')
@@ -22,35 +24,22 @@ def update_record(host):
     if record is None:
         record = Record()
         record.host = host
-        # 拼接完整子域名
-        record.name = host + "." + Cloudflare.zone_name
-        # 获取record_id
-        record.id = Cloudflare.get_record_id(record.name)
+        record.name = cloudflare.get_record_name(record.host)
+        record.id = cloudflare.get_record_id(record.name)
+        record.key = request.args.get('key')
         db.session.add(record)
-    else:
-        # 若没有发送key 且需要认证
-        if len(request.args) == 0 and record.key is not None:
-            return jsonify({'code': -2, 'msg': 'Operation failed!'})
-        else:
-            if record.key is None:
-                record.key = request.args.to_dict().get('key')
-            elif record.key != request.args.to_dict().get('key'):
-                return jsonify({'code': -2, 'msg': 'Operation failed!', })
+    elif record.key is not None and request.args.get('key') != record.key:
+        return response.error("Please check your key!")
 
     if new_ip != record.ip:
         record.ip = new_ip
-        status = Cloudflare.update_record(record)
-        record.ip = new_ip if status else record.ip
+        status = cloudflare.update_record(record)
         # 记录ddns历史操作
-        history = History(ip=new_ip, host=host, status=status)
-        db.session.add(history)
+        db.session.add(History(ip=new_ip, host=host, status=status))
         db.session.commit()
+        if status:
+            return response.success("Operation succeed!", {'name': record.name, 'ip': record.ip})
+        else:
+            return response.error("Operation failed!")
 
-        return jsonify({'code': 0 if status else -1,
-                        'msg': 'Operation succeed!' if status else 'Operation failed!',
-                        'data': {'name': record.name, 'ip': record.ip}
-                        })
-    return jsonify({'code': 0,
-                    'msg': 'The current record is up to date!',
-                    'data': {'name': record.name, 'ip': record.ip}
-                    })
+    return response.success("The current record is up to date!", {'name': record.name, 'ip': record.ip})
