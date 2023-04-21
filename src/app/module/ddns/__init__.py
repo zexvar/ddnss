@@ -1,4 +1,4 @@
-from flask import Blueprint, current_app, jsonify, request
+from flask import Blueprint, current_app, request
 
 from app.entity.history import History
 from app.entity.record import Record
@@ -27,6 +27,8 @@ def update_record(host):
         record.name = cloudflare.get_record_name(record.host)
         record.id = cloudflare.get_record_id(record.name)
         record.key = request.args.get('key')
+        if record.id is None:
+            return response.error("Get record id error!")
         db.session.add(record)
     elif record.key is not None and request.args.get('key') != record.key:
         return response.error("Please check your key!")
@@ -40,6 +42,6 @@ def update_record(host):
         if status:
             return response.success("Operation succeed!", {'name': record.name, 'ip': record.ip})
         else:
-            return response.error("Operation failed!")
+            return response.error("Update record failed!")
 
     return response.success("The current record is up to date!", {'name': record.name, 'ip': record.ip})

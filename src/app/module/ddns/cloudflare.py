@@ -33,7 +33,8 @@ def get_record_id(record_name: str):
         resp = requests.get(url, params, headers=Conf.headers, verify=False).text
         record_id = json.loads(resp)["result"][0]['id']
         return record_id
-    except Exception:
+    except Exception as e:
+        print(e)
         return None
 
 
@@ -51,5 +52,6 @@ def update_record(record):
         resp = requests.put(url, headers=Conf.headers, data=json.dumps(data), verify=False).text
         status = json.loads(resp)["success"]
         return True if status else False
-    except Exception:
+    except Exception as e:
+        print(e)
         return False
