@@ -1,27 +1,35 @@
 {% extends "base.html" %}
 
-
-
-{% block container %}
-    <table class="table">
-        <caption>Operation history recent 100.</caption>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Host</th>
-            <th>Success</th>
-            <th>Time</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for history in history_list %}
+{% block body %}
+    <div class="container mt-4">
+        <h2>History</h2>
+        <p>Last 100 Records</p>
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
             <tr>
-                <td>{{ history.id }}</td>
-                <td>{{ history.host }}</td>
-                <td>{{ history.status }}</td>
-                <td>{{ history.create_time }}</td>
+                <th>ID</th>
+                <th>Host</th>
+                <th>Success</th>
+                <th>Time</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for history in history_list %}
+                <tr>
+                    <td>{{ history.id }}</td>
+                    <td>{{ history.host }}</td>
+                    <td>
+                        {% if history.status == False %}
+                            <span class="badge bg-danger">{{ history.status }}</span>
+                        {% else %}
+                            <span class="badge bg-success">{{ history.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ history.create_time }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 {% endblock %}

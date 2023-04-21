@@ -5,5 +5,4 @@ PyYAML
 requests
 gevent
 gunicorn
-flask_bootstrap
 SQLAlchemy

@@ -1,20 +1,14 @@
-{% extends "bootstrap/base.html"  %}
-
-{% block title %}DDNS{% endblock %}
-
-{% block navbar %}
-<div class="navbar navbar-inverse" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/history">History</a>
-        </div>
-    </div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>DDNS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static',filename='bootstrap.min.css') }}">
+</head>
+<body>
+{% block body %}
 {% endblock %}
-
-{% block content %}
-<div class="container">
-  {% block container %}
-  {% endblock %}
-</div>
-{% endblock %}
+<script src="{{ url_for('static',filename='bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>

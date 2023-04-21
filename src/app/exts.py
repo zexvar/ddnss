@@ -2,18 +2,15 @@ import os
 import yaml
 import importlib
 from flask_sqlalchemy import SQLAlchemy
-from flask_bootstrap import Bootstrap
 
 
 def init(app):
     load_config(app)
     load_blueprint(app)
     db.init_app(app)
-    bootstrap.init_app(app)
 
 
 db = SQLAlchemy()
-bootstrap = Bootstrap()
 
 
 def load_config(app):
