@@ -1,8 +1,9 @@
 import importlib
 import os
 
-from flask import Blueprint, jsonify
+from flask import Blueprint
 from app.exts import db
+from app.util import response
 
 bp = Blueprint('database', __name__, url_prefix='/init')
 
@@ -15,4 +16,4 @@ def init_db():
             entity = importlib.import_module('app.entity.' + d.replace('.py', ''))
             entities.append(entity.__name__)
     db.create_all()
-    return jsonify({'code': 0, 'msg': 'Operation succeeded!', 'created': entities})
+    return response.success("Operation succeed!", {'created': entities})
