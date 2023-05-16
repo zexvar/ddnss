@@ -2,7 +2,6 @@ Flask
 Flask_SQLAlchemy
 PyMySQL
 PyYAML
-requests
-gevent
-gunicorn
 IPy
+requests
+gunicorn

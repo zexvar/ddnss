@@ -3,10 +3,13 @@ from flask import request
 
 
 def get_ip():
-    nginx_ip = request.headers.get('X-Real-IP')
-    if nginx_ip is None:
-        return request.remote_addr
-    return nginx_ip
+    # proxy ip
+    raw_ip = request.headers.get('X-Real-IP')
+    if raw_ip is None:
+        # direct ip
+        raw_ip = request.remote_addr
+    # convert ipv4-mapped ipv6 to ipv4
+    return raw_ip.replace('::ffff:', '')
 
 
 def version(address):
