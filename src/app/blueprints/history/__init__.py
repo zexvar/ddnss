@@ -1,6 +1,6 @@
 from flask import Blueprint, request, render_template
 
-from app.entity.history import History
+from app.models import History
 
 bp = Blueprint('history', __name__, url_prefix='/history')
 

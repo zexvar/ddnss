@@ -1,9 +1,9 @@
 from flask import Flask
 
-from app import exts
+from app import extensions
 
 
 def create_app():
     app = Flask(__name__)
-    exts.init(app)
+    extensions.init(app)
     return app

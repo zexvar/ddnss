@@ -1,12 +1,24 @@
 from flask import Blueprint, current_app, request
 
-from app.entity.history import History
-from app.entity.record import Record
-from app.exts import db
-from app.util import response
-from . import cloudflare
+from app.models import Record, History
+from app.extensions import db
+from app.utils import response, cloudflare, ip_address
 
 bp = Blueprint('ddns', __name__, url_prefix='/ddns')
+
+
+@bp.route("/")
+def ip_info():
+    ip = ip_address.get_ip()
+    version = ip_address.version(ip)
+    v4_verify = ip_address.verify_v4(ip)
+    v6_verify = ip_address.verify_v6(ip)
+    return response.success("Get ip success!", {
+        'ip': ip,
+        'type': version,
+        'v4_verify': v4_verify,
+        'v6_verify': v6_verify
+    })
 
 
 @bp.route("/<host>")
@@ -14,12 +26,7 @@ def update_record(host):
     if not cloudflare.Conf.init:
         cloudflare.init(current_app.config['cloudflare'])
 
-    # 获取客户端ip
-    new_ip = request.headers.get('X-Real-IP')
-    if new_ip is None:
-        new_ip = request.remote_addr
-
-    # 查询record是否存在
+    # 查询当前host对应record是否存在
     record = Record.query.filter(Record.host == host).first()
     if record is None:
         record = Record()
@@ -33,6 +40,8 @@ def update_record(host):
     elif record.key is not None and request.args.get('key') != record.key:
         return response.error("Please check your key!")
 
+    # 获取客户端ip
+    new_ip = ip_address.get_ip()
     if new_ip != record.ip:
         record.ip = new_ip
         status = cloudflare.update_record(record)

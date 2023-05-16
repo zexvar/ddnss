@@ -19,10 +19,10 @@ def load_config(app):
 
 # 自动扫描加载蓝图
 def load_blueprint(app):
-    path = ['app', 'module']
-    # app/module/
+    path = ['app', 'blueprints']
+    # app/blueprints/
     for file in os.listdir('/'.join(path)):
-        # app.module.xxx
+        # app.blueprints.xxx
         module_path = f'{path[0]}.{path[1]}.{file}'
         if file.startswith("__"):
             continue

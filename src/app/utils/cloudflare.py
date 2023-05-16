@@ -11,7 +11,7 @@ class Conf:
 
 def init(conf: dict):
     # close https warning
-    # requests.packages.urllib3.disable_warnings()
+    requests.packages.urllib3.disable_warnings()
     Conf.init = True
     Conf.base_url = f"https://api.cloudflare.com/client/v4/zones/{conf['zone_id']}/dns_records/"
     Conf.headers = {
