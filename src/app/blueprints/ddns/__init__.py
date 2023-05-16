@@ -46,8 +46,8 @@ def update_record(host):
         db.session.add(History(ip=new_ip, host=host, status=status))
         db.session.commit()
         if status:
-            return response.success("Operation succeed!", {'name': record.name, 'ip': record.ip})
+            return response.success("Change ip succeed!", {'name': record.name, 'ip': record.ip})
         else:
             return response.error("Update record failed!")
 
-    return response.success("The current record is up to date!", {'name': record.name, 'ip': record.ip})
+    return response.success("The current record ip is up to date!", {'name': record.name, 'ip': record.ip})
