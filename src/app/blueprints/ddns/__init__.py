@@ -1,4 +1,4 @@
-from flask import Blueprint, current_app, request
+from flask import Blueprint, request
 
 from app.models import Record, History
 from app.extensions import db
@@ -23,9 +23,6 @@ def ip_info():
 
 @bp.route("/<host>")
 def update_record(host):
-    if not cloudflare.Conf.init:
-        cloudflare.init(current_app.config['cloudflare'])
-
     # 查询当前host对应record是否存在
     record = Record.query.filter(Record.host == host).first()
     if record is None:

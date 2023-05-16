@@ -1,20 +1,14 @@
 import os
-import yaml
 import importlib
 from flask_sqlalchemy import SQLAlchemy
 
 
 def init(app):
-    load_config(app)
     load_blueprint(app)
     db.init_app(app)
 
 
 db = SQLAlchemy()
-
-
-def load_config(app):
-    app.config.update(yaml.full_load(open('config.yml', 'r')))
 
 
 # 自动扫描加载蓝图
