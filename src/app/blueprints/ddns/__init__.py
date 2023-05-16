@@ -50,4 +50,4 @@ def update_record(host):
         else:
             return response.error("Update record failed!")
 
-    return response.success("The current record ip is up to date!", {'name': record.name, 'ip': record.ip})
+    return response.success("The current record ip is already latest!", {'name': record.name, 'ip': record.ip})
