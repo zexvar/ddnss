@@ -4,4 +4,4 @@ PyMySQL
 PyYAML
 IPy
 requests
-gunicorn
+gevent
