@@ -4,6 +4,6 @@
 
 gunicorn main:app \
   --workers=2 \
-  --worker_class=gevent \
-  --worker_connections=2000 \
+  --worker-class=gevent \
+  --worker-connections=2000 \
   --bind [::]:5000
