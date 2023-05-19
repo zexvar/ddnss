@@ -5,3 +5,4 @@ PyYAML
 IPy
 requests
 gevent
+gunicorn
