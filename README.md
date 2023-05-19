@@ -1,4 +1,8 @@
-# DDNSS
+<div align=center>
+   <img src="https://github.com/zexvar/DDNSS/blob/main/logo.png" width=50% alt="DDNS Server">
+</div>
+
+# 项目介绍
 
 DDNSS是一个开源的DDNS服务器(DDNS Server),
 用于简化多台主机的DDNS服务,客户端无需进行额外安装,
