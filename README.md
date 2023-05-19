@@ -51,6 +51,7 @@ DDNSS是一个开源的DDNS服务器(DDNS Server),
    # config.yml 需提前创建
    docker run -d --name=ddns \
    -v /opt/ddns/config.yml:/opt/ddns/config.yml \
+   -e TZ="Asia/Shanghai" \
    -p 5000:5000 \
    --restart=always \
    ddns:latest
@@ -64,13 +65,16 @@ DDNSS是一个开源的DDNS服务器(DDNS Server),
    # config.yml 需提前创建
    docker run -d --name=ddns \
    -v /opt/ddns/config.yml:/opt/ddns/config.yml \
+   -e TZ="Asia/Shanghai" \
    --restart=always \
    --network=host \
    ddns:latest
    ```
 
 ## 配置文件
+
 使用MySQL数据库
+
    ```bash
    SQLALCHEMY_DATABASE_URI: mysql+pymysql://root:123456@127.0.0.1:3306/ddns
    SQLALCHEMY_TRACK_MODIFICATIONS: False
@@ -83,21 +87,26 @@ DDNSS是一个开源的DDNS服务器(DDNS Server),
    ```
 
 ## 客户端使用
+
 > 首次部署后需初始化数据库,在部署节点上执行: `curl http://127.0.0.1:5000/init`
 
 > 请求首次携带key即为开启认证，之后所有请求都需要携带相同key
 
-#### 基础使用 
+#### 基础使用
+
 - `curl http://[::1]:5000/ddns/www`
 
 以无认证方式更新www.example.com记录的ip
-#### 开启身份验证 
+
+#### 开启身份验证
+
 - `curl http://[::1]:5000/ddns/www1?key=123456`
 - `curl http://[::1]:5000/ddns/www2?key=abc`
 
 首次携带key请求自动设置key,之后请求需携带相同key(不同域名key可以不同)
 
-#### 设置crontab定时任务 
+#### 设置crontab定时任务
+
 - `*/5 * * * * curl http://[::1]:5000/ddns/www > /root/ddns.log 2>&1`
 
 
