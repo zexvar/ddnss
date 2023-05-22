@@ -80,14 +80,14 @@ DDNSS是一个开源的DDNS服务器(DDNS Server),
 使用MySQL数据库
 
    ```bash
-   SQLALCHEMY_DATABASE_URI: mysql+pymysql://root:123456@127.0.0.1:3306/ddns
+   # SQLALCHEMY_ECHO: True
    SQLALCHEMY_TRACK_MODIFICATIONS: False
-   SQLALCHEMY_ECHO: True
+   SQLALCHEMY_DATABASE_URI: mysql+pymysql://root:123456@127.0.0.1:3306/ddns
    
-   cloudflare:
-     token: your cloudflare token
-     zone_id: your zone id
-     zone_name: example.com
+   CLOUDFLARE:
+     TOKEN: your cloudflare token
+     ZONE_ID: your zone id
+     ZONE_NAME: example.com
    ```
 
 ## 客户端使用

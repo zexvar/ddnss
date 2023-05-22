@@ -6,12 +6,14 @@ from app import config
 requests.packages.urllib3.disable_warnings()
 
 # read cloudflare conf
-conf = config['cloudflare']
+conf = config['CLOUDFLARE']
+token = conf['TOKEN']
+zone_id = conf['ZONE_ID']
+zone_name = conf['ZONE_NAME']
 
 # make basic params
-base_url = f"https://api.cloudflare.com/client/v4/zones/{conf['zone_id']}/dns_records/"
-headers = {"content-type": "application/json", "Authorization": "Bearer " + conf['token']}
-zone_name = conf['zone_name']
+base_url = f"https://api.cloudflare.com/client/v4/zones/{zone_id}/dns_records/"
+headers = {"content-type": "application/json", "Authorization": "Bearer " + token}
 
 
 def get_record_name(host: str):
