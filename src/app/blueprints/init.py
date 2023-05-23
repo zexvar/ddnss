@@ -5,10 +5,10 @@ from flask import Blueprint
 from app.extensions import db
 from app.utils import response
 
-bp = Blueprint('database', __name__, url_prefix='/init')
+bp = Blueprint('init', __name__, url_prefix='/init')
 
 
-@bp.route("/")
+@bp.route("/db")
 def init_db():
     model_list = []
     models = importlib.import_module('app.models')
