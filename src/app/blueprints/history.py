@@ -2,7 +2,7 @@ from flask import Blueprint, request, render_template
 
 from app.models import History
 
-bp = Blueprint('history', __name__, url_prefix='/history')
+bp = Blueprint('history', __name__)
 
 
 @bp.route('/latest')

@@ -4,7 +4,7 @@ from app.models import Record, History
 from app.extensions import db
 from app.utils import response, cloudflare, ip_address
 
-bp = Blueprint('ddns', __name__, url_prefix='/ddns')
+bp = Blueprint('ddns', __name__)
 
 
 @bp.route("/")

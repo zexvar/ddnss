@@ -26,5 +26,10 @@ def register_blueprints(app):
             continue
         mod_name = file[:-3] if file.endswith('.py') else file
         module = importlib.import_module(f'{mod_path}.{mod_name}')
-        app.register_blueprint(getattr(module, 'bp'))
-        print(f'Register blueprint: {module.__name__}')
+        blueprint = getattr(module, 'bp')
+        bp_prefix = blueprint.url_prefix
+        if bp_prefix is None:
+            bp_prefix = f'/{blueprint.name}'
+        app.register_blueprint(blueprint, url_prefix=bp_prefix)
+        print(f'Register blueprint: {module.__name__} {bp_prefix}')
+
