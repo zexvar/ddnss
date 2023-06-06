@@ -1,10 +1,9 @@
+import yaml
+
 from app import create_app
 from gevent import monkey
 
-# gevent
 monkey.patch_all()
 
-app = create_app()
-
-if __name__ == '__main__':
-    app.run(host='::', debug=True)
+config = yaml.full_load(open('config.yml'))
+app = create_app(config)

@@ -1,15 +1,16 @@
 import importlib
 import os
 
-import yaml
 from flask import Flask
 
 from app.extensions import register_extensions
 
-config = yaml.load(open('config.yml', 'r'), Loader=yaml.FullLoader)
+config: dict
 
 
-def create_app():
+def create_app(config):
+    globals()['config'] = config
+
     app = Flask(__name__)
     app.config.update(config)
 
