@@ -1,15 +1,15 @@
-from IPy import IP
 from flask import request
+from IPy import IP
 
 
 def get_ip():
     # proxy ip
-    raw_ip = request.headers.get('X-Real-IP')
+    raw_ip = request.headers.get("X-Real-IP")
     if raw_ip is None:
         # direct ip
         raw_ip = request.remote_addr
     # convert ipv4-mapped ipv6 to ipv4
-    return raw_ip.replace('::ffff:', '')
+    return raw_ip.replace("::ffff:", "")
 
 
 def version(address):
