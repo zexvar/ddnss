@@ -9,14 +9,9 @@ def get_ip():
         # direct ip
         raw_ip = request.remote_addr
     # convert ipv4-mapped ipv6 to ipv4
-    return raw_ip.replace("::ffff:", "")
-
-
-def version(address):
-    try:
-        return IP(address).version()
-    except Exception as e:
-        return 0
+    if raw_ip.startswith("::ffff:"):
+        raw_ip = raw_ip[6:]
+    return raw_ip
 
 
 def verify_v4(ip):
@@ -39,3 +34,10 @@ def verify_v6(ip):
             return False
     except Exception as e:
         return False
+
+
+def version(address):
+    try:
+        return IP(address).version()
+    except Exception as e:
+        return 0
