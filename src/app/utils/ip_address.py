@@ -41,3 +41,13 @@ def version(address):
         return IP(address).version()
     except Exception as e:
         return 0
+
+
+def type(address):
+    v = version(address)
+    if v == 0:
+        return None
+    elif v == 4:
+        return "A"
+    elif v == 6:
+        return "AAAA"
