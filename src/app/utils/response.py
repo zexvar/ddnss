@@ -3,20 +3,20 @@ from datetime import datetime
 from flask import jsonify
 
 
-def make(code: int, msg: str, data: object):
+def make(success: bool, message: str, data: object):
     return jsonify(
         {
-            "code": code,
-            "msg": msg,
+            "success": success,
+            "message": message,
             "data": data,
             "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         }
     )
 
 
-def success(msg: str, data: object):
-    return make(0, msg, data)
+def success(msg: str, data: object = None):
+    return make(True, msg, data)
 
 
-def error(msg: str):
-    return make(-1, msg, None)
+def error(msg: str, data: object = None):
+    return make(False, msg, data)
