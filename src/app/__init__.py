@@ -4,6 +4,7 @@ import os
 from flask import Flask
 
 from app.extensions import register_extensions
+from app.utils.json import JSONProvider
 
 config: dict
 
@@ -12,6 +13,7 @@ def create_app(config):
     globals()["config"] = config
 
     app = Flask(__name__)
+    app.json = JSONProvider(app)
     app.config.update(config)
 
     register_blueprints(app)
