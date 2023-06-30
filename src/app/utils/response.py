@@ -9,7 +9,7 @@ def make(success: bool, message: str, data: object):
             "success": success,
             "message": message,
             "data": data,
-            "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "time": datetime.now(),
         }
     )
 
