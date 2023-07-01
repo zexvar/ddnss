@@ -10,7 +10,7 @@ def get_ip_addr():
         raw_ip = request.remote_addr
     # convert ipv4-mapped ipv6 to ipv4
     if raw_ip.startswith("::ffff:"):
-        raw_ip = raw_ip[6:]
+        raw_ip = raw_ip[7:]
     return raw_ip
 
 
