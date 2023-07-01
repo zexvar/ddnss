@@ -5,3 +5,6 @@ CLOUDFLARE:
   TOKEN: your cloudflare token
   ZONE_ID: your zone id
   ZONE_NAME: example.com
+
+# Optional
+# DDNS_KEY: abc123

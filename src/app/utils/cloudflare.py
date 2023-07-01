@@ -1,5 +1,3 @@
-import json
-
 import requests
 
 from app import config
@@ -18,38 +16,36 @@ base_url = f"https://api.cloudflare.com/client/v4/zones/{zone_id}/dns_records/"
 headers = {"content-type": "application/json", "Authorization": "Bearer " + token}
 
 
-def get_record_name(host: str):
-    return f"{host}.{zone_name}"
+def get_record_name(record_host):
+    return f"{record_host}.{zone_name}"
 
 
-def get_record_id(record_name: str):
+def get_record_id(record_name, record_type):
     url = base_url
-    params = {"type": "AAAA", "name": record_name}
+    params = {"name": record_name, "type": record_type}
     try:
-        resp = requests.get(url, params, headers=headers, verify=False).text
-        record_id = json.loads(resp)["result"][0]["id"]
+        resp = requests.get(url, params=params, headers=headers, verify=False).json()
+        record_id = resp["result"][0]["id"]
         return record_id
     except Exception as e:
         print(e)
         return None
 
 
-def update_record(record):
-    # data = json.dumps(data)
-    url = base_url + record.id
+def update_record(record_id, record_name, record_type, record_content):
+    url = base_url + record_id
     data = {
-        "type": "AAAA",
-        "content": record.ip,
-        "name": record.name,
+        "name": record_name,
+        "type": record_type,
+        "content": record_content,
         "ttl": 60,
         "proxied": False,
     }
+
     try:
-        resp = requests.put(
-            url, headers=headers, data=json.dumps(data), verify=False
-        ).text
-        status = json.loads(resp)["success"]
-        return True if status else False
+        resp = requests.put(url, json=data, headers=headers, verify=False).json()
+        success = resp.get("success", False)
+        return success
     except Exception as e:
         print(e)
         return False
