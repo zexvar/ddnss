@@ -8,3 +8,7 @@ class JSONProvider(DefaultJSONProvider):
         if isinstance(o, date) or isinstance(o, datetime):
             return o.strftime("%Y-%m-%d %H:%M:%S")
         return super().default(o)
+
+
+def register_json_provider(app):
+    app.json = JSONProvider(app)
