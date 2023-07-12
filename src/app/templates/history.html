@@ -1,35 +1,37 @@
-{% extends "base.html" %}
-
-{% block body %}
-    <div class="container mt-4">
-        <h2>History</h2>
-        <p>{{ title }}</p>
-        <table class="table table-bordered table-hover">
-            <thead class="table-dark">
+{% extends "base.html" %} {% block body %}
+<div class="container mt-4">
+    <h2>Records change history</h2>
+    <p>{{ title }}</p>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
             <tr>
                 <th>ID</th>
                 <th>Host</th>
-                <th>Success</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Status</th>
                 <th>Time</th>
             </tr>
-            </thead>
-            <tbody>
-            {% for history in history_list %}
-                <tr>
-                    <td>{{ history.id }}</td>
-                    <td>{{ history.host }}</td>
-                    <td>
-                        {% if history.status == False %}
-                            <span class="badge bg-danger">{{ history.status }}</span>
-                        {% else %}
-                            <span class="badge bg-success">{{ history.status }}</span>
-                        {% endif %}
-                    </td>
-                    <td>{{ history.create_time }}</td>
-                </tr>
+        </thead>
+        <tbody>
+            {% for item in history_list %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.host }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.type }}</td>
+                <td>
+                    {% if item.status == False %}
+                    <span class="badge bg-danger">{{ item.status }}</span>
+                    {% else %}
+                    <span class="badge bg-success">{{ item.status }}</span>
+                    {% endif %}
+                </td>
+                <td>{{ item.create_time }}</td>
+            </tr>
             {% endfor %}
-            </tbody>
-        </table>
-    </div>
+        </tbody>
+    </table>
+</div>
 
 {% endblock %}
