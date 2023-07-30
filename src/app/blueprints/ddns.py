@@ -1,13 +1,13 @@
 from flask import Blueprint, request
 
-from app import config
+from app import app_config
 from app.extensions import db
 from app.models import History, Record
 from app.utils import client, cloudflare, response
 
 bp = Blueprint("ddns", __name__)
 
-DDNS_KEY = str(config.get("DDNS_KEY", ""))
+DDNS_KEY = str(app_config.get("DDNS_KEY", ""))
 
 
 @bp.route("/")

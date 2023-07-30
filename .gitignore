@@ -1,5 +1,6 @@
 # python 
 **/__pycache__/
 
-# config
-src/config-dev.yml
+# secrect
+src/instance/*
+src/config.yml
