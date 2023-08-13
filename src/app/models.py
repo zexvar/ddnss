@@ -28,7 +28,7 @@ class Record(Base):
 @dataclass(init=False)
 class History(Base):
     __table_args__ = {"extend_existing": True}
-    id: int = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
+    id: int = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     host: str = db.Column(db.String(100))
     name: str = db.Column(db.String(100))
     type: str = db.Column(db.String(10))
