@@ -1,10 +1,13 @@
-from gevent import monkey
+import platform
 
 from app import create_app
 
-monkey.patch_all()
+if platform.system() == "Linux":
+    from gevent import monkey
+
+    monkey.patch_all()
 
 app = create_app()
 
 if __name__ == "__main__":
-    app.run(host="::", debug=True)
+    app.run(host="::")

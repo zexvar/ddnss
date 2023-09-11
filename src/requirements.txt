@@ -1,6 +1,6 @@
 Flask
 Flask_SQLAlchemy
-PyMySQL
+python-dotenv
 PyYAML
 IPy
 requests

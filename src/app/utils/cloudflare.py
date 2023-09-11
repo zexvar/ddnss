@@ -1,12 +1,12 @@
 import requests
 
-from app import app_config
+from app import config
 
 # close https warning
 requests.packages.urllib3.disable_warnings()
 
 # read cloudflare conf
-conf = app_config.get("CLOUDFLARE", {})
+conf = config.CLOUDFLARE
 token = conf.get("TOKEN", "")
 zone_id = conf.get("ZONE_ID", "")
 zone_name = conf.get("ZONE_NAME", "")
