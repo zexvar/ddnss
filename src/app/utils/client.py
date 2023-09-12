@@ -1,5 +1,6 @@
+import ipaddress
+
 from flask import request
-from IPy import IP
 
 
 def get_ip_addr():
@@ -16,7 +17,7 @@ def get_ip_addr():
 
 def get_ip_version(addr):
     try:
-        return IP(addr).version()
+        return ipaddress.ip_address(addr).version
     except Exception as e:
         return 0
 

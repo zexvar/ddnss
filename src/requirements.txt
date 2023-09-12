@@ -1,8 +1,6 @@
 Flask
 Flask_SQLAlchemy
 python-dotenv
-PyYAML
-IPy
 requests
 gevent
 gunicorn
