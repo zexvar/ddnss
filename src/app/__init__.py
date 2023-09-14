@@ -13,8 +13,8 @@ def create_app():
     # app.config.update(config)
     app.config.from_object(config)
 
-    register_extensions(app)
     register_blueprints(app)
+    register_extensions(app)
     register_error_handler(app)
     register_json_provider(app)
     return app
