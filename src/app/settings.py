@@ -2,17 +2,27 @@ import os
 
 from dotenv import load_dotenv
 
+# basedir
 basedir = os.path.join(os.getcwd(), "data")
 
-load_dotenv()
+ENV_URI = os.path.join(basedir, "config.env")
+DATABASE_URI = os.path.join(basedir, "data.db")
 
+# load env
+if os.path.exists(ENV_URI):
+    load_dotenv(ENV_URI)
+else:
+    load_dotenv()
+
+
+# get env
 CONFIG_ENV = os.getenv("CONFIG_ENV", "production")
-
-DDNS_KEY = os.getenv("DDNS_KEY", None)
 
 CLOUDFLARE_TOKEN = os.getenv("CF_TOKEN")
 CLOUDFLARE_ZONE_ID = os.getenv("CF_ZONE_ID")
 CLOUDFLARE_ZONE_NAME = os.getenv("CF_ZONE_NAME")
+
+DDNS_KEY = os.getenv("DDNS_KEY", None)
 
 
 class Config(object):
@@ -24,15 +34,13 @@ class Config(object):
     }
 
 
-class DevelopmentConfig(Config):
-    SQLALCHEMY_ECHO: True
-    DATABASE_URI = os.path.join(basedir, "data.db")
-    SQLALCHEMY_DATABASE_URI = f"sqlite:///{DATABASE_URI}"
-
-
 class ProductionConfig(Config):
-    DATABASE_URI = os.path.join(basedir, "data.db")
     SQLALCHEMY_DATABASE_URI = f"sqlite:///{DATABASE_URI}"
+
+
+class DevelopmentConfig(Config):
+    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+    SQLALCHEMY_ECHO: True
 
 
 class TestingConfig(Config):
