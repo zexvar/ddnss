@@ -1,6 +1,12 @@
-# python 
+# Python 
 **/__pycache__/
 
-# secrect
-src/instance/*
-src/config.yml
+# Environments
+.env
+.venv
+env/
+venv/
+
+# Secrets
+data
+src/data
