@@ -1,19 +1,19 @@
-import os
 from importlib import import_module
+from pathlib import Path
 
 from flask import Blueprint
 
 
-def register_blueprints(app):
-    basepath = f"{app.name}.blueprints"
-    for file in os.listdir(basepath.replace(".", "/")):
-        if not file.startswith("__"):
-            module = import_module(f"{basepath}.{file}".removesuffix(".py"))
+def register_blueprints(app, bp_dir="blueprints"):
+    for file in Path(f"{app.name}/{bp_dir}").iterdir():
+        module_name = file.stem
+        if not str(module_name).startswith("__"):
+            module = import_module(f"{app.name}.{bp_dir}.{module_name}")
             register_module_bp(module, app)
 
 
 def register_module_bp(module, app):
-    bp = getattr(module, "bp", None)
+    bp = vars(module).get("bp")
     if isinstance(bp, Blueprint):
         if bp.url_prefix is None:
             bp.url_prefix = f"/{bp.name}"
