@@ -1,6 +1,6 @@
 import requests
 
-from app import config
+from app.settings import config
 
 # close https warning
 requests.packages.urllib3.disable_warnings()
@@ -13,7 +13,7 @@ zone_name = conf.get("ZONE_NAME", "")
 
 # make basic params
 base_url = f"https://api.cloudflare.com/client/v4/zones/{zone_id}/dns_records/"
-headers = {"content-type": "application/json", "Authorization": "Bearer " + token}
+headers = {"content-type": "application/json", "Authorization": f"Bearer {token}"}
 
 
 def get_record_name(record_host):
