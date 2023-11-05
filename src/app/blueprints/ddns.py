@@ -1,8 +1,9 @@
-from flask import Blueprint, request
+from flask import request
 
-from app import config
+from app.blueprints import Blueprint
 from app.extensions import db
 from app.models import History, Record
+from app.settings import config
 from app.utils import client, cloudflare, response
 
 bp = Blueprint("ddns", __name__)

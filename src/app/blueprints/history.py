@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request
+from flask import render_template, request
 
+from app.blueprints import Blueprint
 from app.models import History
 
 bp = Blueprint("history", __name__)
