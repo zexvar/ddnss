@@ -1,6 +1,5 @@
 FROM python:alpine
 WORKDIR /ddnss
 ADD src .
-RUN python3 -m pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
-RUN chmod +x init.sh
-CMD ["./init.sh"]
+RUN pip install --no-cache-dir -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
+CMD ["sh", "init.sh"]
