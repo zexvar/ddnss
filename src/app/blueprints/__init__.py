@@ -15,6 +15,6 @@ class Blueprint(BaseBlueprint):
 
 def scan_blueprint():
     for file in Path(__file__).parent.iterdir():
-        if file.suffix == ".py":
+        if file.is_dir() or file.suffix == ".py":
             import_module(f"{__name__}.{file.stem}")
     return bp_list
