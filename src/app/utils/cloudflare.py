@@ -6,10 +6,9 @@ from app.settings import config
 requests.packages.urllib3.disable_warnings()
 
 # read cloudflare conf
-conf = config.CLOUDFLARE
-token = conf.get("TOKEN", "")
-zone_id = conf.get("ZONE_ID", "")
-zone_name = conf.get("ZONE_NAME", "")
+token = config.CLOUDFLARE_TOKEN
+zone_id = config.CLOUDFLARE_ZONE_ID
+zone_name = config.CLOUDFLARE_ZONE_NAME
 
 # make basic params
 base_url = f"https://api.cloudflare.com/client/v4/zones/{zone_id}/dns_records/"

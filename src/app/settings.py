@@ -2,40 +2,26 @@ import os
 
 from dotenv import load_dotenv
 
-# basedir
-basedir = os.path.join(os.getcwd(), "data")
-
-ENV_URI = os.path.join(basedir, "config.env")
-DATABASE_URI = os.path.join(basedir, "data.db")
+DATA_DIR = os.path.join(os.getcwd(), "data")
+ENV_FILE = os.path.join(DATA_DIR, "config.env")
 
 # load env
-if os.path.exists(ENV_URI):
-    load_dotenv(ENV_URI)
-else:
-    load_dotenv()
-
+load_dotenv(ENV_FILE) if os.path.exists(ENV_FILE) else load_dotenv()
 
 # get env
-CONFIG_ENV = os.getenv("CONFIG_ENV", "production")
-
-CLOUDFLARE_TOKEN = os.getenv("CF_TOKEN")
-CLOUDFLARE_ZONE_ID = os.getenv("CF_ZONE_ID")
-CLOUDFLARE_ZONE_NAME = os.getenv("CF_ZONE_NAME")
-
-DDNS_KEY = os.getenv("DDNS_KEY", None)
+FLASK_ENV = os.getenv("FLASK_ENV", "production")
 
 
 class Config(object):
-    DDNS_KEY = DDNS_KEY
-    CLOUDFLARE = {
-        "TOKEN": CLOUDFLARE_TOKEN,
-        "ZONE_ID": CLOUDFLARE_ZONE_ID,
-        "ZONE_NAME": CLOUDFLARE_ZONE_NAME,
-    }
+    CLOUDFLARE_TOKEN = None
+    CLOUDFLARE_ZONE_ID = None
+    CLOUDFLARE_ZONE_NAME = None
+
+    DDNS_KEY = None
 
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = f"sqlite:///{DATABASE_URI}"
+    SQLALCHEMY_DATABASE_URI = f"sqlite:///{DATA_DIR}/data.db"
 
 
 class DevelopmentConfig(Config):
@@ -49,10 +35,23 @@ class TestingConfig(Config):
     TESTING = True
 
 
-config_env = {
+configs = {
     "development": DevelopmentConfig,
     "production": ProductionConfig,
     "testing": TestingConfig,
 }
 
-config = config_env[CONFIG_ENV]
+
+def get_config(flask_env: str):
+    print(f"FLASK_ENV: {flask_env}")
+
+    for i in filter(lambda o: not str(o).startswith("_"), dir(configs.get(flask_env))):
+        env_value = os.getenv(i)
+        if env_value is not None:
+            setattr(configs, i, env_value)
+        print(f"{i}: {getattr(configs, i)}")
+
+    return configs
+
+
+config = get_config(FLASK_ENV)
