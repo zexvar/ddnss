@@ -4,15 +4,13 @@ from flask import request
 
 
 def get_ip_addr():
-    # proxy ip
-    raw_ip = request.headers.get("X-Real-IP")
-    if raw_ip is None:
-        # direct ip
-        raw_ip = request.remote_addr
-    # convert ipv4-mapped ipv6 to ipv4
-    if raw_ip.startswith("::ffff:"):
-        raw_ip = raw_ip[7:]
-    return raw_ip
+    # XFF ip or direct ip
+    xff = request.headers.get("X-Forwarded-For")
+    ip = xff.split(",")[0] if xff else request.remote_addr
+    # ipv4-mapped-ipv6 to ipv4
+    if ip.startswith("::ffff:"):
+        ip = ip[7:]
+    return ip
 
 
 def get_ip_version(addr):
