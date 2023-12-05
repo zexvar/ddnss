@@ -35,23 +35,22 @@ class TestingConfig(Config):
     TESTING = True
 
 
-configs = {
+configurations = {
     "development": DevelopmentConfig,
     "production": ProductionConfig,
     "testing": TestingConfig,
 }
 
 
-def get_config(flask_env: str):
+def init_config(flask_env: str):
     print(f"FLASK_ENV: {flask_env}")
-
-    for i in filter(lambda o: not str(o).startswith("_"), dir(configs.get(flask_env))):
+    config = configurations.get(flask_env)
+    for i in filter(lambda o: not str(o).startswith("_"), dir(config)):
         env_value = os.getenv(i)
         if env_value is not None:
-            setattr(configs, i, env_value)
-        print(f"{i}: {getattr(configs, i)}")
+            setattr(config, i, env_value)
+        print(f"{i}: {getattr(config, i)}")
+    return config
 
-    return configs
 
-
-config = get_config(FLASK_ENV)
+config = init_config(FLASK_ENV)
