@@ -22,7 +22,6 @@ def client_ip_info():
     return response.success("Get ip info success!", client.get_ip_info())
 
 
-@bp.route("/<host>")
 @bp.route("/update/<host>")
 def update_record(host):
     ip_info = client.get_ip_info()
