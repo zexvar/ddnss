@@ -6,7 +6,7 @@ from app.models import History, Record
 from app.settings import config
 from app.utils import client, cloudflare, response
 
-bp = Blueprint("ddns", __name__)
+bp = Blueprint("dns", __name__)
 
 DDNS_KEY = config.DDNS_KEY
 
@@ -23,6 +23,7 @@ def client_ip_info():
 
 
 @bp.route("/<host>")
+@bp.route("/update/<host>")
 def update_record(host):
     ip_info = client.get_ip_info()
     ip_addr = ip_info.get("addr")
