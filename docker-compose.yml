@@ -1,4 +1,5 @@
 version: "3"
+
 services:
   ddnss:
     image: ddnss:latest
@@ -12,8 +13,13 @@ services:
       - ./data:/ddnss/data
     environment:
       - TZ=Asia/Shanghai
-      # - CF_TOKEN=<CLOUDFLARE_TOKEN>
-      # - CF_ZONE_ID=<CLOUDFLARE_ZONE_ID>
-      # - CF_ZONE_NAME=<CLOUDFLARE_ZONE_NAME>
-      # - DDNS_KEY=<KEY>
+      # - GUNICORN_BIND = "[::]:5000"
+      # - GUNICORN_WORKERS = 2
+      # - GUNICORN_WORKER_CLASS = "gevent"
+
+      # - CLOUDFLARE_TOKEN = None
+      # - CLOUDFLARE_ZONE_ID = None
+      # - CLOUDFLARE_ZONE_NAME = None
+
+      # - DDNS_KEY = None
     restart: always
