@@ -13,6 +13,10 @@ FLASK_ENV = os.getenv("FLASK_ENV", "production")
 
 
 class Config(object):
+    GUNICORN_BIND = "[::]:5000"
+    GUNICORN_WORKERS = 2
+    GUNICORN_WORKER_CLASS = "gevent"
+
     CLOUDFLARE_TOKEN = None
     CLOUDFLARE_ZONE_ID = None
     CLOUDFLARE_ZONE_NAME = None
@@ -49,7 +53,7 @@ def init_config(flask_env: str):
         env_value = os.getenv(i)
         if env_value is not None:
             setattr(config, i, env_value)
-        print(f"{i}: {getattr(config, i)}")
+        # print(f"{i}: {getattr(config, i)}")
     return config
 
 
