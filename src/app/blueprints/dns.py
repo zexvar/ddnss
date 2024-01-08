@@ -6,14 +6,14 @@ from app.models import History, Record
 from app.settings import config
 from app.utils import client, cloudflare, response
 
-bp = Blueprint("dns", __name__)
+bp = Blueprint("dns", __name__, url_prefix="/dns")
 
-DDNS_KEY = config.DDNS_KEY
+DDNS_TOKEN = config.DDNS_TOKEN
 
 
 @bp.before_request
-def check_ddns_key():
-    if DDNS_KEY is not None and request.values.get("key") != DDNS_KEY:
+def check_token():
+    if DDNS_TOKEN is not None and request.values.get("token") != DDNS_TOKEN:
         return response.error("Auth failed!")
 
 
@@ -28,7 +28,6 @@ def update_record(host):
     ip_addr = ip_info.get("addr")
     ip_type = ip_info.get("type")
 
-    # 查询 host 对应 record
     record = Record.query.filter(
         db.and_(
             Record.host == host,

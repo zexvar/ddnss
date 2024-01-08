@@ -3,7 +3,7 @@ from flask import render_template, request
 from app.blueprints import Blueprint
 from app.models import History
 
-bp = Blueprint("history", __name__)
+bp = Blueprint("history", __name__, url_prefix="/history")
 
 
 @bp.route("/latest")
