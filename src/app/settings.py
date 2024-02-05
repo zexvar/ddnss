@@ -13,7 +13,10 @@ FLASK_ENV = os.getenv("FLASK_ENV", "production")
 
 
 class Config(object):
-    GUNICORN_BIND = "[::]:5000"
+    APP_HOST = "::"
+    APP_PORT = "5533"
+
+    GUNICORN_BIND = f"[{APP_HOST}]:{APP_PORT}"
     GUNICORN_WORKERS = 2
     GUNICORN_WORKER_CLASS = "gevent"
 
@@ -21,7 +24,7 @@ class Config(object):
     CLOUDFLARE_ZONE_ID = None
     CLOUDFLARE_ZONE_NAME = None
 
-    DDNS_KEY = None
+    DDNS_TOKEN = None
 
 
 class ProductionConfig(Config):
