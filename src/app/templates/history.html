@@ -1,37 +1,37 @@
 {% extends "base.html" %} {% block body %}
 <div class="container mt-4">
-    <h2>Records change history</h2>
-    <p>{{ title }}</p>
-    <table class="table table-bordered table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Host</th>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Status</th>
-                <th>Time</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in history_list %}
-            <tr>
-                <td>{{ item.id }}</td>
-                <td>{{ item.host }}</td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.type }}</td>
-                <td>
-                    {% if item.status == False %}
-                    <span class="badge bg-danger">{{ item.status }}</span>
-                    {% else %}
-                    <span class="badge bg-success">{{ item.status }}</span>
-                    {% endif %}
-                </td>
-                <td>{{ item.create_time }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+  <h2>Records change history</h2>
+  <p>{{ title }}</p>
+  <table class="table table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Host</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in history_list %}
+      <tr>
+        <td>{{ item.id }}</td>
+        <td>{{ item.host }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.type }}</td>
+        <td>
+          {% if item.status == False %}
+          <span class="badge bg-danger">{{ item.status }}</span>
+          {% else %}
+          <span class="badge bg-success">{{ item.status }}</span>
+          {% endif %}
+        </td>
+        <td>{{ item.create_time }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 
 {% endblock %}
