@@ -13,27 +13,22 @@ def get_ip_addr():
     return ip
 
 
-def get_ip_version(addr):
-    try:
-        return ipaddress.ip_address(addr).version
-    except Exception as e:
-        return 0
-
-
 def get_ip_type(addr):
-    match get_ip_version(addr):
-        case 4:
-            return "A"
-        case 6:
-            return "AAAA"
-        case _:
-            return None
+    try:
+        ip_ver = ipaddress.ip_address(addr).version
+        return "A" if ip_ver == 4 else "AAAA"
+    except Exception:
+        return None
 
 
 def get_ip_info():
     ip_addr = get_ip_addr()
-    ip_type = get_ip_type(ip_addr)
+    ip = ipaddress.ip_address(ip_addr)
     return {
         "addr": ip_addr,
-        "type": ip_type,
+        "type": get_ip_type(ip_addr),
+        "LAN": ip.is_private,
+        "XRI": request.headers.get("X-Real-Ip"),
+        "XFF": request.headers.get("X-Forwarded-For"),
+        "XFH": request.headers.get("X-Forwarded-Host"),
     }
