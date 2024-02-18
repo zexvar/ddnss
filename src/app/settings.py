@@ -2,62 +2,57 @@ import os
 
 from dotenv import load_dotenv
 
-DATA_DIR = os.path.join(os.getcwd(), "data")
-ENV_FILE = os.path.join(DATA_DIR, "config.env")
+# basedir for instance_path
+basedir = os.path.abspath("data")
 
 # load env
-load_dotenv(ENV_FILE) if os.path.exists(ENV_FILE) else load_dotenv()
-
-# get env
-FLASK_ENV = os.getenv("FLASK_ENV", "production")
+load_dotenv(os.path.join(basedir, "config.env"))
 
 
-class Config(object):
-    APP_HOST = "::"
-    APP_PORT = "5533"
-
-    GUNICORN_BIND = f"[{APP_HOST}]:{APP_PORT}"
-    GUNICORN_WORKERS = 2
-    GUNICORN_WORKER_CLASS = "gevent"
-
+class BaseConfig(object):
     CLOUDFLARE_TOKEN = None
     CLOUDFLARE_ZONE_ID = None
     CLOUDFLARE_ZONE_NAME = None
 
     DDNS_TOKEN = None
 
+    def __init__(self) -> None:
+        for k in filter(lambda o: not str(o).startswith("_"), dir(self)):
+            v = os.getenv(k)
+            if v is not None:
+                setattr(self, k, v)
+            # print(f"[CONFIG FROM ENV] {k}: {v}")
 
-class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = f"sqlite:///{DATA_DIR}/data.db"
+
+class ProductionConfig(BaseConfig):
+    # SQLALCHEMY_DATABASE_URI = f"sqlite:///{basedir}/data.db"
+    SQLALCHEMY_DATABASE_URI = f"sqlite:///data.db"
 
 
-class DevelopmentConfig(Config):
+class DevelopmentConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
     SQLALCHEMY_ECHO: True
 
 
-class TestingConfig(Config):
+class TestingConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
     SQLALCHEMY_ECHO: True
     TESTING = True
 
 
-configurations = {
-    "development": DevelopmentConfig,
-    "production": ProductionConfig,
-    "testing": TestingConfig,
-}
+# load config
+FLASK_ENV = os.getenv("FLASK_ENV", "production")
+print(f"FLASK_ENV: {FLASK_ENV}")
 
 
-def init_config(flask_env: str):
-    print(f"FLASK_ENV: {flask_env}")
-    config = configurations.get(flask_env)
-    for i in filter(lambda o: not str(o).startswith("_"), dir(config)):
-        env_value = os.getenv(i)
-        if env_value is not None:
-            setattr(config, i, env_value)
-        # print(f"{i}: {getattr(config, i)}")
-    return config
+def load_config() -> object:
+    match FLASK_ENV:
+        case "development":
+            return DevelopmentConfig()
+        case "production":
+            return ProductionConfig()
+        case "testing":
+            return TestingConfig()
 
 
-config = init_config(FLASK_ENV)
+config = load_config()
