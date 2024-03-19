@@ -1,5 +1,8 @@
 FROM python:alpine
 WORKDIR /ddnss
-ADD src .
+COPY src .
+EXPOSE 5533
 RUN pip install --no-cache-dir -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
-CMD ["python", "main.py"]
+COPY docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["/bin/sh"]

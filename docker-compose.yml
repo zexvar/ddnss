@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   ddnss:
     image: ddnss:latest
@@ -8,18 +6,14 @@ services:
       dockerfile: Dockerfile
     container_name: ddnss
     ports:
-      - 5000:5000
+      - 5533:5533
     volumes:
       - ./data:/ddnss/data
     environment:
       - TZ=Asia/Shanghai
-      # - GUNICORN_BIND = "[::]:5000"
-      # - GUNICORN_WORKERS = 2
-      # - GUNICORN_WORKER_CLASS = "gevent"
-
       # - CLOUDFLARE_TOKEN = None
       # - CLOUDFLARE_ZONE_ID = None
       # - CLOUDFLARE_ZONE_NAME = None
 
-      # - DDNS_KEY = None
+      # - DDNS_TOKEN = None
     restart: always
