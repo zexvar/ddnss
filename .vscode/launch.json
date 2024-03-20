@@ -1,16 +1,15 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Flask",
-            "type": "debugpy",
-            "request": "launch",
-            "module": "flask",
-            "cwd": "${workspaceRoot}/src",
-            "env": {
-                "FLASK_APP": "${workspaceRoot}/src/app"
-            },
-            "args": ["run", "-h", "::"]
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Flask",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "flask",
+      "env": {
+        "FLASK_APP": "app"
+      },
+      "args": ["run", "-h", "::", "-p", "5533"]
+    }
+  ]
 }
