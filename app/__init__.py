@@ -19,3 +19,6 @@ def create_app():
     register_error_handler(app)
     register_json_provider(app)
     return app
+
+
+app = create_app()

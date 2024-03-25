@@ -1,10 +1,10 @@
 #!/bin/sh
 
-# gunicorn run
-gunicorn main:app \
---workers 2 \
---worker-class=gevent \
---worker-connections 1024 \
---bind [::]:5533
+# waitress run
+waitress-serve \
+--listen *:5533 \
+--connection-limit 1024 \
+"$@" \
+app:app
 
 exec "$@"
