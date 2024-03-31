@@ -3,10 +3,12 @@ import ipaddress
 from flask import request
 
 
-def get_ip_addr():
-    # XFF ip or direct ip
-    xff = request.headers.get("X-Forwarded-For")
-    ip = xff.split(",")[0] if xff else request.remote_addr
+def get_ip_addr(ip_header="Cf-Connecting-Ip"):
+    ip = request.headers.get(ip_header)
+    if ip is None:
+        xff = request.headers.get("X-Forwarded-For")
+        ip = xff.split(",")[0] if xff else request.remote_addr
+
     # ipv4-mapped-ipv6 to ipv4
     if ip.startswith("::ffff:"):
         ip = ip[7:]
