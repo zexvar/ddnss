@@ -9,7 +9,7 @@ bp = Blueprint("history", __name__, url_prefix="/history")
 @bp.route("/latest")
 def history_latest():
     history_list = History.select().order_by(History.create_time.desc()).limit(100)
-    return render_template("history.html", title="Latest records", history_list=history_list)
+    return render_template("history.jinja", title="Latest records", history_list=history_list)
 
 
 @bp.route("/")
@@ -18,4 +18,4 @@ def history_page():
     page = request.values.get("page", 1, type=int)
     page = 1 if page <= 0 else page
     history_list = History.select().order_by(History.create_time.desc()).paginate(page, 100)
-    return render_template("history.html", title=f"Paginated view", history_list=history_list)
+    return render_template("history.jinja", title=f"Paginated view", history_list=history_list)
