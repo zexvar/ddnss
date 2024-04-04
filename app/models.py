@@ -1,36 +1,40 @@
 from dataclasses import dataclass
 from datetime import datetime
 
-from app.extensions import db
+from peewee import *
+from playhouse.flask_utils import *
+
+db = FlaskDB()
 
 
 @dataclass(init=False)
 class Base(db.Model):
     __abstract__ = True
-    create_time: datetime = db.Column(db.DateTime, default=datetime.now)
-    update_time: datetime = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+    create_time: datetime = DateTimeField(default=datetime.now)
+    update_time: datetime = DateTimeField(default=datetime.now)
+
+    def save(self, *args, **kwargs):
+        self.update_time = datetime.now()
+        return super(Base, self).save(*args, **kwargs)
 
 
 @dataclass(init=False)
 class Record(Base):
-    __table_args__ = (
-        # db.Index("index_host_type", "host", "type"),
-        db.UniqueConstraint("host", "type", name="unique_host_type"),
-        {"extend_existing": True},
-    )
-    id: str = db.Column(db.String(50), primary_key=True)
-    host: str = db.Column(db.String(100))
-    name: str = db.Column(db.String(100))
-    type: str = db.Column(db.String(10))
-    content: str = db.Column(db.String(100))
+    id: str = CharField(max_length=50, primary_key=True)
+    host: str = CharField(max_length=100)
+    name: str = CharField(max_length=100)
+    type: str = CharField(max_length=10)
+    content: str = CharField(max_length=100)
+
+    class Meta:
+        indexes = ((("host", "type"), True),)
 
 
 @dataclass(init=False)
 class History(Base):
-    __table_args__ = {"extend_existing": True}
-    id: int = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    host: str = db.Column(db.String(100))
-    name: str = db.Column(db.String(100))
-    type: str = db.Column(db.String(10))
-    content: str = db.Column(db.String(100))
-    status: bool = db.Column(db.Boolean)
+    id: int = BigAutoField(primary_key=True)
+    host: str = CharField(max_length=100)
+    name: str = CharField(max_length=100)
+    type: str = CharField(max_length=10)
+    content: str = CharField(max_length=100)
+    status: bool = BooleanField()

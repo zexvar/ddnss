@@ -1,7 +1,6 @@
 from flask import request
 
 from app.blueprints import Blueprint
-from app.extensions import db
 from app.models import History, Record
 from app.settings import config
 from app.utils import client, cloudflare, response
@@ -28,12 +27,10 @@ def update_record(host):
     ip_addr = ip_info.get("addr")
     ip_type = ip_info.get("type")
 
-    record = Record.query.filter(
-        db.and_(
-            Record.host == host,
-            Record.type == ip_type,
-        )
-    ).first()
+    record = Record.get_or_none(
+        Record.host == host,
+        Record.type == ip_type,
+    )
 
     if record is None:
         record = Record(host=host, type=ip_type)
@@ -56,9 +53,9 @@ def update_record(host):
         content=record.content,
         status=status,
     )
-    db.session.add(record)
-    db.session.add(history)
-    db.session.commit()
+    record.save()
+    history.save()
+
     if status:
         return response.success("Update record succeed!", record)
     else:

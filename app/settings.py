@@ -25,18 +25,15 @@ class BaseConfig(object):
 
 
 class ProductionConfig(BaseConfig):
-    # SQLALCHEMY_DATABASE_URI = f"sqlite:///{basedir}/data.db"
-    SQLALCHEMY_DATABASE_URI = f"sqlite:///data.db"
+    DATABASE_URL = f"sqlite:///{basedir}/data.db"
 
 
 class DevelopmentConfig(BaseConfig):
-    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
-    SQLALCHEMY_ECHO: True
+    DATABASE_URL = f"sqlite:///{basedir}/test.db"
 
 
 class TestingConfig(BaseConfig):
-    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
-    SQLALCHEMY_ECHO: True
+    DATABASE_URL = "sqlite:///:memory:"
     TESTING = True
 
 

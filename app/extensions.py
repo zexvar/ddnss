@@ -1,12 +1,10 @@
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from app.models import Base, db
 
 
 def init_db(app):
     db.init_app(app)
     with app.app_context():
-        db.create_all()
+        db.database.create_tables(Base.__subclasses__())
 
 
 def register_extensions(app):

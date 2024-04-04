@@ -1,5 +1,5 @@
 Flask
-Flask_SQLAlchemy
 python-dotenv
+peewee
 requests
 waitress
