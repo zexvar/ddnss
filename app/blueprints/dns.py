@@ -1,11 +1,11 @@
 from flask import request
 
-from app.blueprints import Blueprint
+from app.blueprints import Blueprint, new
 from app.models import History, Record
 from app.settings import config
 from app.utils import client, cloudflare, response
 
-bp = Blueprint("dns", __name__, url_prefix="/dns")
+bp = new(Blueprint("dns", __name__, url_prefix="/dns"))
 
 DDNS_TOKEN = config.DDNS_TOKEN
 

@@ -1,9 +1,9 @@
 from flask import redirect, render_template, request, url_for
 
-from app.blueprints import Blueprint
+from app.blueprints import Blueprint, new
 from app.models import History, PaginatedQuery
 
-bp = Blueprint("history", __name__, url_prefix="/history")
+bp = new(Blueprint("history", __name__, url_prefix="/history"))
 
 
 @bp.route("/")
