@@ -2,9 +2,8 @@ from dataclasses import dataclass
 from datetime import datetime
 
 from peewee import *
-from playhouse.flask_utils import *
 
-db = FlaskDB()
+from app.extensions import db
 
 
 @dataclass(init=False)

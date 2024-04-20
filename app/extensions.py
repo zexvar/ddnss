@@ -1,10 +1,12 @@
-from app.models import Base, db
+from app.utils.peewee import FlaskDB
+
+db = FlaskDB()
 
 
 def init_db(app):
     db.init_app(app)
     with app.app_context():
-        db.database.create_tables(Base.__subclasses__())
+        db.create_all()
 
 
 def register_extensions(app):
