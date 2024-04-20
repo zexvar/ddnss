@@ -30,10 +30,12 @@ class ProductionConfig(BaseConfig):
 
 class DevelopmentConfig(BaseConfig):
     DATABASE_URL = f"sqlite:///{basedir}/test.db"
+    DEBUG = True
 
 
 class TestingConfig(BaseConfig):
     DATABASE_URL = "sqlite:///:memory:"
+    DEBUG = True
     TESTING = True
 
 

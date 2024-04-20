@@ -7,7 +7,8 @@
       "request": "launch",
       "module": "flask",
       "env": {
-        "FLASK_APP": "app"
+        "FLASK_APP": "app",
+        "FLASK_DEBUG": "true"
       },
       "args": ["run", "-h", "::", "-p", "5533"]
     }
