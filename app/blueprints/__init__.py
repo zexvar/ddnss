@@ -32,3 +32,8 @@ class BlueprintRegister:
 
 def new(blueprint: Blueprint):
     return BlueprintRegister.append(blueprint)
+
+
+def register_blueprints(app, url_prefix=None):
+    BlueprintRegister.scan_modules()
+    BlueprintRegister.register(app, url_prefix)

@@ -1,6 +1,6 @@
 from flask import Flask
 
-from app.core.blueprint import register_blueprints
+from app.blueprints import register_blueprints
 from app.core.error import register_error_handler
 from app.core.json import register_json_provider
 from app.extensions import register_extensions
