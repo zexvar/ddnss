@@ -1,0 +1,21 @@
+body {
+  overscroll-behavior: none;
+}
+
+.page-wrapper {
+  height: calc(100vh - 56px);
+  overflow: hidden;
+}
+
+.page-sidebar {
+  padding: 2rem 1rem;
+  box-shadow: #00000060 0px 5px 15px;
+}
+
+.page-content {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 56px);
+  overflow: auto;
+  background-color: rgb(27, 30, 31);
+}
