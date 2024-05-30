@@ -12,10 +12,13 @@ class FlaskDB(PeeweeFlaskDB):
 
 
 class PaginatedQuery(PeeweePaginatedQuery):
-    def __init__(self, query_or_model, page, page_size, page_show=9):
+    def __init__(self, query_or_model, page, page_size, page_show=5):
         super().__init__(query_or_model, page=page, paginate_by=page_size)
 
         page_max = self.get_page_count()
+        if page > page_max:
+            super().__init__(query_or_model, page=page_max, paginate_by=page_size)
+
         self.max = page_max
         self.size = page_size
         self.prev = page - 1 if page - 1 >= 1 else None
