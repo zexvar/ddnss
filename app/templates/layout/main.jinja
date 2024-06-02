@@ -1,0 +1,81 @@
+{% extends "layout/base.jinja" %}
+
+<!-- body block -->
+{% block body %}
+
+<header class="page-header navbar flex-md-nowrap sticky-top shadow">
+  <a class="navbar-brand col-md-3 mx-3 fs-3 fw-bold" href="/">DDNSS</a>
+  <div class="navbar-nav">
+    <div class="nav-item text-nowrap">
+      <a class="nav-link px-3" href="/logout">Sign out</a>
+    </div>
+  </div>
+</header>
+
+<aside class="page-sidebar position-fixed offcanvas offcanvas-start show" data-bs-scroll="true" data-bs-backdrop="false"
+  id="sidebar">
+  <div class="offcanvas-header visually-hidden" id="sidebtn">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menu</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <nav class="list-group list-group-flush">
+    <!-- TODO <a class="list-group-item border-0 list-group-item-action" href="#"> Dashboard </a> -->
+    <a class="list-group-item border-0 active bg-secondary" href="/history"> History </a>
+  </nav>
+</aside>
+
+<section class="page-wrapper container-fluid d-flex justify-content-end">
+  <main class="page-content p-3">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="btn p-0 me-3" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
+          <span class="navbar-toggler-icon"></span>
+        </li>
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item active">History</li>
+      </ol>
+    </nav>
+    {% block main %} {% endblock %}
+  </main>
+</section>
+
+<script type="text/javascript">
+  var sidebar = document.getElementById("sidebar")
+  var sidebtn = document.getElementById("sidebtn");
+  var main = document.querySelector("main");
+
+  function updateObeject() {
+    if (window.innerWidth > 992) {
+      main.style.width = "calc(100vw - 280px)";
+      sidebar.style.marginTop = "64px";
+      sidebar.classList.add("show");
+      sidebtn.classList.add("visually-hidden");
+    } else {
+      main.style.width = "100%";
+      sidebar.style.marginTop = "0";
+      sidebar.classList.remove("show");
+      sidebtn.classList.remove("visually-hidden")
+    }
+  }
+  window.onload = (event) => {
+    updateObeject()
+  };
+
+  window.onresize = (event) => {
+    updateObeject()
+  };
+
+
+  sidebar.addEventListener('show.bs.offcanvas', function () {
+    if (window.innerWidth > 992) {
+      main.style.width = "calc(100vw - 280px)"
+    }
+  })
+
+  sidebar.addEventListener('hide.bs.offcanvas', function () {
+    main.style.width = "100%";
+  })
+
+</script>
+
+{% endblock %}

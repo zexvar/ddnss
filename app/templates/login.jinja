@@ -1,0 +1,61 @@
+{% extends "layout/base.jinja" %}
+
+<!-- title block -->
+{% block title %} Login {% endblock %}
+
+<!-- body block -->
+{% block body %}
+
+<script type="text/javascript">
+  function login() {
+    var form = new FormData(document.getElementById("form"));
+    const options = {
+      method: "POST",
+      body: form,
+      redirect: "follow"
+    };
+
+    fetch("/login", options)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.error) {
+          var msg = document.getElementById("msg");
+          msg.innerText = data.error;
+          if (!(msg.classList.contains("show"))) {
+            msg.classList.add("show");
+          }
+          return;
+        }
+        console.log(data);
+        window.location.reload();
+      })
+      .catch((error) => console.error(error));
+  }
+</script>
+
+<div class="d-flex container align-items-center justify-content-center vh-100">
+  <div class="card w-100" style="max-width: 360px;">
+    <div class="card-header text-center pt-3">
+      <p class="fs-3 fw-light">Sign in to DDNSS</p>
+    </div>
+    <div class="card-body mb-3">
+      <form id="form">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <label class="mb-3 text-danger collapse" id="msg">Error!</label>
+        <button type="button" class="btn btn-primary w-100" onclick="login()">Login</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

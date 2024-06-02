@@ -1,0 +1,68 @@
+{% extends "layout/main.jinja" %}
+
+<!-- main block -->
+{% block main %}
+
+<script type="text/javascript">
+  function viewPage(element) {
+    var params = new URLSearchParams(location.search);
+    params.set("page", element.dataset.page);
+    // console.log(location.origin + params.toString())
+    location.search = params.toString();
+  }
+
+  function goToPage(element) {
+    page = element.value;
+    // same page
+    if (page == element.dataset.page) {
+      return;
+    } else if (page < element.min || page > element.max) {
+      element.value = element.dataset.page;
+    } else {
+      element.dataset.page = page;
+      viewPage(element);
+    }
+  }
+</script>
+
+
+<h1 class="my-3 fw-bold">{% block table_title %} {% endblock %}</h1>
+
+<div class="card p-3">
+  <div class="table-responsive">
+    <table class="table table-hover">
+      {% block table_content %} {% endblock %}
+    </table>
+  </div>
+
+  <div class="row g-3">
+    <hr class="d-md-none m-2" style="border: 0px solid;" />
+    <div class="col">
+      <label class="text-nowrap"><span class="fw-bold">{{ pagination.max }} pages. </span>Current page is</label>
+      <input type="number" class="form-control d-inline" style="width:72px;" min="1" max="{{ pagination.max }}"
+        pattern="\d*" value="{{pagination.page}}" data-page="{{pagination.page}}" onblur="goToPage(this)">
+    </div>
+
+    <div class="col">
+      <div class="pagination justify-content-center">
+        <a class="btn btn-dark {% if not pagination.prev %} disabled {% endif %}" onclick="viewPage(this)"
+          data-page="{{pagination.prev}}">
+          &laquo;
+        </a>
+        {% for item in pagination.range %}
+        <a class="btn {% if item == pagination.page %} btn-primary {% else %} btn-dark {% endif %}"
+          onclick="viewPage(this)" data-page="{{item}}">
+          {{ item }}
+        </a>
+        {% endfor %}
+        <a class="btn btn-dark {% if not pagination.next %} disabled {% endif %}" onclick="viewPage(this)"
+          data-page="{{pagination.next}}">
+          &raquo;
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

@@ -1,82 +1,39 @@
-{% extends "base.jinja" %}
+{% extends "layout/table.jinja" %}
 
 <!-- title block -->
 {% block title %} History {% endblock %}
 
-<!-- body block -->
-{% block body %}
-<script type="text/javascript">
-  function viewPage(element) {
-    var params = new URLSearchParams(location.search);
-    params.set("page", element.dataset.page);
-    location.search = params.toString();
-  }
-</script>
+<!-- table_title block -->
+{% block table_title %} Record history {% endblock %}
 
-<div class="container mt-4">
-  <h2>Records change history</h2>
-  <p>Max page: {{ page_max }}</p>
-  <table class="table table-bordered table-hover">
-    <thead class="table-dark">
-      <tr>
-        <th>ID</th>
-        <th>Host</th>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Status</th>
-        <th>Time</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in object_list %}
-      <tr>
-        <td>{{ item.id }}</td>
-        <td>{{ item.host }}</td>
-        <td>{{ item.name }}</td>
-        <td>{{ item.type }}</td>
-        <td>
-          <span class="badge {% if item.status == False %} bg-danger {% else %} bg-success {% endif %}">
-            {{ item.status }}
-          </span>
-        </td>
-        <td>{{ item.create_time }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  <div>
-    <ul class="pagination">
-      <li class="page-item">
-        <button
-          class="page-link {% if page_prev == False %} disabled {% endif %}"
-          onclick="viewPage(this)"
-          data-page="{{page_prev}}"
-        >
-          &laquo;
-        </button>
-      </li>
-      {% for item in page_range %}
-      <li class="page-item">
-        <button
-          class="page-link {% if item == page %} active {% endif %}"
-          onclick="viewPage(this)"
-          data-page="{{item}}"
-        >
-          {{ item }}
-        </button>
-      </li>
-      {% endfor %}
-      <li class="page-item">
-        <button
-          class="page-link {% if page_next == False %} disabled {% endif %}"
-          onclick="viewPage(this)"
-          data-page="{{page_next}}"
-        >
-          &raquo;
-        </button>
-      </li>
-    </ul>
-  </div>
-</div>
+<!-- table_content block -->
+{% block table_content %}
+<thead>
+  <tr>
+    <th>ID</th>
+    <th>Host</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Status</th>
+    <th>Time</th>
+  </tr>
+</thead>
+<tbody>
+  {% for item in object_list %}
+  <tr>
+    <td>{{ item.id }}</td>
+    <td>{{ item.host }}</td>
+    <td>{{ item.name }}</td>
+    <td>{{ item.type }}</td>
+    <td>
+      <span class="badge {% if item.status == False %} bg-danger {% else %} bg-success {% endif %}">
+        {{ item.status }}
+      </span>
+    </td>
+    <td>{{ item.create_time }}</td>
+  </tr>
+  {% endfor %}
+</tbody>
+
 
 {% endblock %}
