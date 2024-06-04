@@ -14,7 +14,11 @@ class BaseConfig(object):
     CLOUDFLARE_ZONE_ID = None
     CLOUDFLARE_ZONE_NAME = None
 
-    DDNS_TOKEN = None
+    DATABASE_URL = None
+
+    AUTH_ENABLE = True
+    AUTH_USERNAME = None
+    AUTH_PASSWORD = None
 
     def __init__(self) -> None:
         for k in filter(lambda o: not str(o).startswith("_"), dir(self)):
@@ -44,7 +48,7 @@ FLASK_ENV = os.getenv("FLASK_ENV", "production")
 print(f"FLASK_ENV: {FLASK_ENV}")
 
 
-def load_config() -> object:
+def load_config() -> BaseConfig:
     match FLASK_ENV:
         case "development":
             return DevelopmentConfig()

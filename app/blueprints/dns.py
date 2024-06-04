@@ -1,19 +1,9 @@
-from flask import request
-
 from app.blueprints import Blueprint, new
+from app.extensions import auth
 from app.models import History, Record
-from app.settings import config
 from app.utils import client, cloudflare, response
 
 bp = new(Blueprint("dns", __name__, url_prefix="/dns"))
-
-DDNS_TOKEN = config.DDNS_TOKEN
-
-
-@bp.before_request
-def check_token():
-    if DDNS_TOKEN is not None and request.values.get("token") != DDNS_TOKEN:
-        return response.error("Auth failed!")
 
 
 @bp.route("/")
@@ -21,7 +11,8 @@ def client_ip_info():
     return response.success("Get ip info success!", client.get_ip_info())
 
 
-@bp.route("/update/<host>")
+@bp.route("/update/<host>/")
+@auth.required
 def update_record(host):
     ip_info = client.get_ip_info()
     ip_addr = ip_info.get("addr")
