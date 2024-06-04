@@ -9,7 +9,7 @@ bp = new(Blueprint("history", __name__, url_prefix="/history"))
 
 
 @bp.before_request
-@auth.reqired
+@auth.required
 def before():
     pass
 
