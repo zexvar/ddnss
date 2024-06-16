@@ -30,7 +30,7 @@
         {{ item.status }}
       </span>
     </td>
-    <td>{{ item.create_time }}</td>
+    <td>{{ item.create_time.strftime("%Y-%m-%d %H:%M:%S") }}</td>
   </tr>
   {% endfor %}
 </tbody>
