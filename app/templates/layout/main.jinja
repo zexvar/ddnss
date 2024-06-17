@@ -57,14 +57,9 @@
       sidebtn.classList.remove("visually-hidden")
     }
   }
-  window.onload = (event) => {
-    updateObeject()
-  };
 
-  window.onresize = (event) => {
-    updateObeject()
-  };
-
+  window.onload = (event) => { updateObeject() };
+  window.onresize = (event) => { updateObeject() };
 
   sidebar.addEventListener('show.bs.offcanvas', function () {
     if (window.innerWidth > 992) {

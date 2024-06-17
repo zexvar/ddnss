@@ -26,8 +26,6 @@ class BlueprintRegister:
         if isinstance(blueprint, Blueprint):
             cls.blueprints.append(blueprint)
             return blueprint
-        else:
-            raise TypeError
 
 
 def new(blueprint: Blueprint):
