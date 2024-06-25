@@ -4,7 +4,7 @@ from flask import jsonify, make_response, redirect, render_template, request
 
 
 class BasicAuth:
-    def __init__(self, app=None, enable=True, username=None, password=None, default_route=True):
+    def __init__(self, app=None, enable=None, username=None, password=None, default_route=True):
         self._app = app
         self._enable = enable
         self._username = username
@@ -17,18 +17,15 @@ class BasicAuth:
         self._app = app
 
         if self._enable is None:
-            if "AUTH_ENABLE" in app.config:
-                self._enable = app.config["AUTH_ENABLE"]
+            self._enable = app.config.get("AUTH_ENABLE", False)
 
         if self._enable:
-            if "AUTH_USERNAME" in app.config:
-                self._username = app.config["AUTH_USERNAME"]
-            else:
+            self._username = app.config.get("AUTH_USERNAME", None)
+            if self._username is None or len(self._username) == 0:
                 raise ValueError("Missing required configuration for AUTH_USERNAME")
 
-            if "AUTH_PASSWORD" in app.config:
-                self._password = app.config["AUTH_PASSWORD"]
-            else:
+            self._password = app.config.get("AUTH_PASSWORD", None)
+            if self._password is None or len(self._password) == 0:
                 raise ValueError("Missing required configuration for AUTH_PASSWORD")
 
             import base64

@@ -16,7 +16,7 @@ class BaseConfig(object):
 
     DATABASE_URL = None
 
-    AUTH_ENABLE = True
+    AUTH_ENABLE = None
     AUTH_USERNAME = None
     AUTH_PASSWORD = None
 
