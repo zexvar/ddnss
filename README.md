@@ -27,29 +27,29 @@ cd ddnss && docker compose up -d
 
 - Basic
   ```shell
-  curl -4 http://127.0.0.1:5533/dns/update/www
-  curl -6 http://[::1]:5533/dns/update/www
+  curl -4 -L http://127.0.0.1:5533/dns/update/www
+  curl -6 -L http://[::1]:5533/dns/update/www
   ```
-- Wtih token
+- Wtih auth
 
   ```shell
-  curl -4 http://127.0.0.1:5533/dns/update/www?token=abc123
-  curl -6 http://[::1]:5533/dns/update/www?token=abc123`
+  curl -4 -L http://<username>:<password>@<127.0.0.1>:5533/dns/update/www
+  curl -6 -L http://<username>:<password>@[::1]:5533/dns/update/www
   ```
 
 - With crontab
 
   ```shell
-  */1 * * * * curl -4 http://127.0.0.1:5533/dns/update/www
-  */1 * * * * curl -6 http://[::1]:5533/dns/update/www
+  */1 * * * * curl -4 -L http://127.0.0.1:5533/dns/update/www
+  */1 * * * * curl -6 -L http://[::1]:5533/dns/update/www
 
   ```
 
 - With crontab & log
 
   ```shell
-    */1 * * * * curl -4 http://127.0.0.1:5533/dns/update/www >> /root/dns.log
-    */1 * * * * curl -6 http://[::1]:5533/dns/update/www >> /root/dns.log
+    */1 * * * * curl -4 -L http://127.0.0.1:5533/dns/update/www >> /root/dns.log
+    */1 * * * * curl -6 -L http://[::1]:5533/dns/update/www >> /root/dns.log
 
     # tail /root/dns.log -n 100
     # tail /root/dns.log -n 100 | grep <host>

@@ -15,5 +15,7 @@ services:
       # - CLOUDFLARE_ZONE_ID = None
       # - CLOUDFLARE_ZONE_NAME = None
 
-      # - DDNS_TOKEN = None
+      # - AUTH_ENABLE = true
+      # - AUTH_USERNAME = admin
+      # - AUTH_PASSWORD = 123456
     restart: always
