@@ -33,8 +33,8 @@ class BasicAuth:
             b64auth = base64.b64encode(f"{self._username}:{self._password}".encode())
             self._authorization = f"Basic {b64auth.decode()}"
 
-        if self._default_route:
-            self.add_default_route()
+            if self._default_route:
+                self.add_default_route()
 
     def add_default_route(self):
         app = self._app
