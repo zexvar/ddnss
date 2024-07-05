@@ -48,9 +48,9 @@ cd ddnss && docker compose up -d
 - With crontab & log
 
   ```shell
-    */1 * * * * curl -4 -L http://127.0.0.1:5533/dns/update/www >> /root/dns.log
-    */1 * * * * curl -6 -L http://[::1]:5533/dns/update/www >> /root/dns.log
+  */1 * * * * curl -4 -L http://127.0.0.1:5533/dns/update/www >> /var/log/dns.log
+  */1 * * * * curl -6 -L http://[::1]:5533/dns/update/www >> /var/log/dns.log
 
-    # tail /root/dns.log -n 100
-    # tail /root/dns.log -n 100 | grep <host>
+  # tail /var/log/dns.log -n 100
+  # tail /var/log/dns.log -n 100 | grep <host>
   ```
