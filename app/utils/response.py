@@ -6,10 +6,10 @@ from flask import jsonify
 def make(success: bool, message: str, data: object):
     return jsonify(
         {
-            "success": success,
-            "message": message,
             "data": data,
             "time": datetime.now(),
+            "success" if success else "error": message,
+            # "status": "success" if success else "error",
         }
     )
 
