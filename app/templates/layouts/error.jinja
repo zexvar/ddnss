@@ -1,0 +1,20 @@
+{% extends "layouts/base.jinja" %}
+
+<!-- body block -->
+{% block body %}
+
+<div class="d-flex container align-items-center justify-content-center vh-100">
+  <div class="card px-2 py-4 bg-danger">
+    <div class="card-body">
+      <h5 class="card-title fs-2">{% block error_title %} {% endblock %}</h5>
+      <h6 class="card-subtitle mb-3 text-muted fs-4">{% block error_content %} {% endblock %}</h6>
+      <p class="card-text fs-5">
+        Something has gone wrong!
+        <br />
+        I'm probably working on something that has blown up.
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

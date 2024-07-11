@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import jsonify
+from flask import jsonify, render_template, request
 
 
 def make(success: bool, message: str, data: object):
@@ -20,3 +20,13 @@ def success(msg: str, data: object = None):
 
 def error(msg: str, data: object = None):
     return make(False, msg, data)
+
+
+def resp(html, rest):
+    accept = request.headers.get("accept", "*/*")
+    # html response
+    if "text/html" in accept:
+        return render_template(html)
+    # json response
+    else:
+        return error(rest)
