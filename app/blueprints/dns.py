@@ -1,5 +1,5 @@
 from app.blueprints import Blueprint, new
-from app.extensions import auth
+from app.core.auth import Auth
 from app.models import History, Record
 from app.utils import client, cloudflare, response
 
@@ -12,7 +12,7 @@ def client_ip_info():
 
 
 @bp.route("/update/<host>/")
-@auth.required
+@Auth.required
 def update_record(host):
     ip_info = client.get_ip_info()
     ip_addr = ip_info.get("addr")

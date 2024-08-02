@@ -1,7 +1,7 @@
 from flask import render_template, request
 
 from app.blueprints import Blueprint, new
-from app.extensions import auth
+from app.core.auth import Auth
 from app.models import History
 from app.utils import peewee
 
@@ -9,7 +9,7 @@ bp = new(Blueprint("history", __name__, url_prefix="/history"))
 
 
 @bp.before_request
-@auth.required
+@Auth.required
 def before():
     pass
 
