@@ -3,7 +3,7 @@ from flask import Flask
 from app.blueprints import register_blueprints
 from app.core.auth import register_auth_handler
 from app.core.error import register_error_handler
-from app.core.json import register_json_provider
+from app.core.resp import register_resp_handler
 from app.extensions import register_extensions
 from app.settings import basedir, config
 
@@ -17,9 +17,9 @@ def create_app():
 
     register_blueprints(app)
     register_extensions(app)
+    register_resp_handler(app)
     register_auth_handler(app)
     register_error_handler(app)
-    register_json_provider(app)
     return app
 
 
