@@ -1,6 +1,39 @@
 from datetime import date, datetime
 
-from flask import Flask, Response, jsonify, render_template, request
+from flask import Flask, Response, jsonify, make_response, render_template, request
+
+
+class Rest(Response):
+    @classmethod
+    def make(cls, success, message, data=None, status=None):
+        content = {"data": data, "time": datetime.now(), "success" if success else "error": message}
+        return make_response(jsonify(content), status)
+
+    @classmethod
+    def success(cls, msg, data=None):
+        return cls.make(True, msg, data)
+
+    @classmethod
+    def error(cls, msg, data=None, status=None):
+        return cls.make(False, msg, data, status)
+
+
+class Html(Response):
+    @classmethod
+    def make(cls, content, status=None):
+        return make_response(content, status)
+
+    @classmethod
+    def render(cls, template, context=None, status=None):
+        return cls.make(render_template(template, **(context or {})), status)
+
+
+def response(rest: Response, html: Response):
+    """
+    Return html or rest by `accept header`.
+    """
+    accept = request.headers.get("accept", "*/*")
+    return html if "text/html" in accept else rest
 
 
 def register_resp_handler(app: Flask):
@@ -13,39 +46,4 @@ def register_resp_handler(app: Flask):
             return super().default(o)
 
     app.json = JSONProvider(app)
-
-
-class Rest(Response):
-    def __new__(self, success, message, data=None, status=None) -> None:
-        content = {"data": data, "time": datetime.now(), "success" if success else "error": message}
-        return Response(jsonify(content), status)
-
-    @classmethod
-    def success(cls, msg, data=None):
-        return cls(True, msg, data)
-
-    @classmethod
-    def error(cls, msg, data=None, status=None):
-        return cls(False, msg, data, status)
-
-
-class Html(Response):
-    def __new__(self, template, context=None, status=None) -> None:
-        content = render_template(template, **(context or {}))
-        return Response(content, status)
-
-    @classmethod
-    def success(cls, template, context=None) -> None:
-        return cls(template, context)
-
-    @classmethod
-    def error(cls, template, context=None, status=None) -> None:
-        return cls(template, context, status)
-
-
-def response(rest: Response, html: Response):
-    """
-    Return html or rest by `accept header`.
-    """
-    accept = request.headers.get("accept", "*/*")
-    return html if "text/html" in accept else rest
+    app.response_class = Response
