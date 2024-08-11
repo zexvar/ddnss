@@ -5,17 +5,17 @@ from flask import Flask, Response, jsonify, make_response, render_template, requ
 
 class Rest(Response):
     @classmethod
-    def make(cls, success, message, data=None, status=None):
+    def make(cls, success, message, data=None, status=None, headers=None):
         content = {"data": data, "time": datetime.now(), "success" if success else "error": message}
-        return make_response(jsonify(content), status)
+        return make_response(jsonify(content), status, headers)
 
     @classmethod
-    def success(cls, msg, data=None):
-        return cls.make(True, msg, data)
+    def success(cls, message, data=None, status=None, headers=None):
+        return cls.make(True, message, data, status, headers)
 
     @classmethod
-    def error(cls, msg, data=None, status=None):
-        return cls.make(False, msg, data, status)
+    def error(cls, message, data=None, status=None, headers=None):
+        return cls.make(False, message, data, status, headers)
 
 
 class Html(Response):
