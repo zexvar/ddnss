@@ -1,6 +1,8 @@
 from functools import wraps
 
-from flask import Flask, jsonify, make_response, redirect, render_template, request
+from flask import Flask, redirect, request
+
+from .resp import Html, Rest, response
 
 
 class Auth:
@@ -41,35 +43,24 @@ class Auth:
         def login():
             if request.method == "GET":
                 print(request.values)
-                return render_template("/login.jinja")
+                return Html.render("/login.jinja")
             else:
                 data = request.values
                 if data.get("username") == cls._username and data.get("password") == cls._password:
-                    resp = make_response(jsonify({"info": "Success!"}))
+                    resp = Rest.success("login success!")
                     resp.set_cookie("authorization", cls._authorization, max_age=3600)
                     return resp
                 else:
-                    return jsonify({"error": "Username or password error!"})
+                    return Rest.error("Username or password error!")
 
         # Add route for logout
         @app.route("/logout")
         def logout():
-            resp = make_response(redirect("/login"))
+            resp = Html.make(redirect("/login"))
             resp.delete_cookie("authorization")
             return resp
 
         return cls
-
-    @classmethod
-    def required(cls, f):
-        @wraps(f)
-        def decorated(*args, **kwargs):
-            if cls._enable:
-                if not cls.verify_auth():
-                    return cls.verify_error()
-            return f(*args, **kwargs)
-
-        return decorated
 
     @classmethod
     def verify_auth(cls):
@@ -83,17 +74,20 @@ class Auth:
         return False
 
     @classmethod
-    def verify_error(cls):
-        accept = request.headers.get("accept", "*/*")
-        # html response
-        if "text/html" in accept:
-            return render_template("/login.jinja")
-        # auth response
-        else:
-            """Sends a 401 response that enables basic auth"""
-            resp = make_response(jsonify({"message": "Login required!"}), 401)
-            resp.headers = {"WWW-Authenticate": 'Basic realm="nologin"'}
-            return resp
+    def required(cls, f):
+        @wraps(f)
+        def decorated(*args, **kwargs):
+            if cls._enable:
+                if cls.verify_auth() is False:
+                    """Send login page or 401 response for basic auth"""
+                    headers = {"WWW-Authenticate": 'Basic realm="nologin"'}
+                    return response(
+                        Rest.error("Login required!", status=401, headers=headers),
+                        Html.render("/login.jinja"),
+                    )
+            return f(*args, **kwargs)
+
+        return decorated
 
 
 def register_auth_handler(app):
