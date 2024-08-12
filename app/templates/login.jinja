@@ -28,7 +28,12 @@
           return;
         }
         console.log(data);
-        window.location.reload();
+        console.log(window.location.pathname);
+        if (["/login", "/login/"].includes(window.location.pathname)) {
+          window.location.pathname = "/";
+        } else {
+          window.location.reload();
+        }
       })
       .catch((error) => console.error(error));
   }
