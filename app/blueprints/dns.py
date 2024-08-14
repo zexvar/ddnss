@@ -1,14 +1,15 @@
 from app.blueprints import Blueprint, new
 from app.core.auth import Auth
+from app.core.resp import Rest
 from app.models import History, Record
-from app.utils import client, cloudflare, response
+from app.utils import client, cloudflare
 
 bp = new(Blueprint("dns", __name__, url_prefix="/dns"))
 
 
 @bp.route("/")
 def client_ip_info():
-    return response.success("Get ip info success!", client.get_ip_info())
+    return Rest.success("Get ip info success!", client.get_ip_info())
 
 
 @bp.route("/update/<host>/")
@@ -28,11 +29,11 @@ def update_record(host):
         record.name = cloudflare.get_record_name(record.host)
         record.id = cloudflare.get_record_id(record.name, record.type)
         if record.id is None:
-            return response.error("Get record id failed!")
+            return Rest.error("Get record id failed!")
 
     # record no change
     if ip_addr == record.content:
-        return response.success("The current record is already latest!", record)
+        return Rest.success("The current record is already latest!", record)
 
     # set record content is new ip_addr
     record.content = ip_addr
@@ -48,6 +49,6 @@ def update_record(host):
     history.save()
 
     if status:
-        return response.success("Update record succeed!", record)
+        return Rest.success("Update record succeed!", record)
     else:
-        return response.error("Update record failed!")
+        return Rest.error("Update record failed!")

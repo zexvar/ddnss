@@ -1,7 +1,8 @@
-from flask import render_template, request
+from flask import request
 
 from app.blueprints import Blueprint, new
 from app.core.auth import Auth
+from app.core.resp import Html
 from app.models import History
 from app.utils import peewee
 
@@ -25,8 +26,9 @@ def index():
         page=page,
     )
 
-    return render_template(
+    return Html.render(
         "history.jinja",
         pagination=pagination,
         object_list=pagination.get_object_list(),
+        status=400,
     )
