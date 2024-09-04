@@ -1,12 +1,12 @@
 from flask import request
 
-from app.blueprints import Blueprint, new
+from app.blueprints import Blueprint
 from app.core.auth import Auth
 from app.core.resp import Html
 from app.models import History
 from app.utils import peewee
 
-bp = new(Blueprint("history", __name__, url_prefix="/history"))
+bp = Blueprint("history", __name__, url_prefix="/history")
 
 
 @bp.before_request

@@ -1,10 +1,10 @@
-from app.blueprints import Blueprint, new
+from app.blueprints import Blueprint
 from app.core.auth import Auth
 from app.core.resp import Rest
 from app.models import History, Record
 from app.utils import client, cloudflare
 
-bp = new(Blueprint("dns", __name__, url_prefix="/dns"))
+bp = Blueprint("dns", __name__, url_prefix="/dns")
 
 
 @bp.route("/")
