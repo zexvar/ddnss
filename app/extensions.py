@@ -1,12 +1,12 @@
-from app.utils.peewee import FlaskDB
+from app.utils.peewee import PeeweeORM
 
-db = FlaskDB()
+orm = PeeweeORM()
 
 
 def init_db(app):
-    db.init_app(app)
+    orm.init_app(app)
     with app.app_context():
-        db.create_all()
+        orm.create_all()
 
 
 def register_extensions(app):

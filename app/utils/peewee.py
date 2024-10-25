@@ -1,4 +1,4 @@
-from playhouse.flask_utils import FlaskDB as PeeweeFlaskDB
+from playhouse.flask_utils import FlaskDB
 from playhouse.flask_utils import PaginatedQuery as PeeweePaginatedQuery
 
 
@@ -6,7 +6,7 @@ def subclasses(cls):
     return set(cls.__subclasses__()).union([s for c in cls.__subclasses__() for s in subclasses(c)])
 
 
-class FlaskDB(PeeweeFlaskDB):
+class PeeweeORM(FlaskDB):
     def create_all(self):
         self.database.create_tables(subclasses(self.Model))
 

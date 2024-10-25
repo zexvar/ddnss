@@ -3,11 +3,11 @@ from datetime import datetime
 
 from peewee import *
 
-from app.extensions import db
+from app.extensions import orm
 
 
 @dataclass(init=False)
-class Base(db.Model):
+class Base(orm.Model):
     __abstract__ = True
     create_time: datetime = DateTimeField(default=datetime.now)
     update_time: datetime = DateTimeField(default=datetime.now)
