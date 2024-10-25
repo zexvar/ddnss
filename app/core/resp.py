@@ -24,8 +24,8 @@ class Html(Response):
         return make_response(content, status)
 
     @classmethod
-    def render(cls, template, **context):
-        return cls.make(render_template(template, **(context or {})))
+    def render(cls, template, status=None, **context):
+        return cls.make(render_template(template, **(context or {})), status=status)
 
 
 def response(rest: Response, html: Response):
