@@ -9,13 +9,13 @@ bp = Blueprint("dns", __name__, url_prefix="/dns")
 
 @bp.route("/")
 def client_ip_info():
-    return Rest.success("Get ip info success!", client.get_ip_info())
+    return Rest.success("Get ip info success!", client.ip.info())
 
 
 @bp.route("/update/<host>/")
 @Auth.required
 def update_record(host):
-    ip_info = client.get_ip_info()
+    ip_info = client.ip.info()
     ip_addr = ip_info.get("addr")
     ip_type = ip_info.get("type")
 
