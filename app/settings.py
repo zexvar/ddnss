@@ -1,61 +1,52 @@
 import os
+import tomllib
+from dataclasses import dataclass, field
 
 from dotenv import load_dotenv
 
 # basedir for instance_path
 basedir = os.path.abspath("data")
+env_file = os.path.join(basedir, "config.env")
+toml_file = os.path.join(basedir, "config.toml")
 
-# load env
-load_dotenv(os.path.join(basedir, "config.env"))
 
+@dataclass
+class Config:
+    DEBUG: bool = False
 
-class BaseConfig(object):
-    CLOUDFLARE_TOKEN = None
-    CLOUDFLARE_ZONE_ID = None
-    CLOUDFLARE_ZONE_NAME = None
+    CLOUDFLARE_TOKEN: str = None
+    CLOUDFLARE_ZONE_ID: str = None
+    CLOUDFLARE_ZONE_NAME: str = None
 
-    DATABASE_URL = None
+    AUTH_ENABLE: bool = None
+    AUTH_USERNAME: str = None
+    AUTH_PASSWORD: str = None
 
-    AUTH_ENABLE = None
-    AUTH_USERNAME = None
-    AUTH_PASSWORD = None
+    DATABASE_URL: str = f"sqlite:///{basedir}/data.db"
 
-    def __init__(self) -> None:
-        for k in filter(lambda o: not str(o).startswith("_"), dir(self)):
-            v = os.getenv(k)
+    @staticmethod
+    def convert_type(value: str, type):
+        """Convert environment variable to the target type."""
+        if type is bool:
+            return value.lower() in ("true", "1", "yes")
+        if type is int:
+            return int(value)
+        if type is float:
+            return float(value)
+        return value
+
+    def __post_init__(self):
+        # Override values with environment variables
+        load_dotenv(env_file)
+        for key in self.__annotations__.keys():
+            v = os.getenv(key)
             if v is not None:
-                setattr(self, k, v)
-            # print(f"[CONFIG FROM ENV] {k}: {v}")
+                type = self.__annotations__[key]
+                setattr(self, key, self.convert_type(v, type))
 
 
-class ProductionConfig(BaseConfig):
-    DATABASE_URL = f"sqlite:///{basedir}/data.db"
+# read toml config
+with open(toml_file, "br") as f:
+    toml_config = tomllib.load(f)
 
-
-class DevelopmentConfig(BaseConfig):
-    DATABASE_URL = f"sqlite:///{basedir}/test.db"
-    DEBUG = True
-
-
-class TestingConfig(BaseConfig):
-    DATABASE_URL = "sqlite:///:memory:"
-    DEBUG = True
-    TESTING = True
-
-
-# load config
-FLASK_ENV = os.getenv("FLASK_ENV", "production")
-print(f"FLASK_ENV: {FLASK_ENV}")
-
-
-def load_config() -> BaseConfig:
-    match FLASK_ENV:
-        case "development":
-            return DevelopmentConfig()
-        case "production":
-            return ProductionConfig()
-        case "testing":
-            return TestingConfig()
-
-
-config = load_config()
+config = Config(**toml_config)
