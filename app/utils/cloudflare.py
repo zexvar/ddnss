@@ -2,37 +2,38 @@ import requests
 
 from app.settings import config
 
-# close https warning
-requests.packages.urllib3.disable_warnings()
-
-# read cloudflare conf
-token = config.CLOUDFLARE_TOKEN
-zone_id = config.CLOUDFLARE_ZONE_ID
-zone_name = config.CLOUDFLARE_ZONE_NAME
-
-# make basic params
-base_url = f"https://api.cloudflare.com/client/v4/zones/{zone_id}/dns_records/"
-headers = {"content-type": "application/json", "Authorization": f"Bearer {token}"}
+token = config.CLOUDFLARE_API_TOKEN
+api_url = "https://api.cloudflare.com/client/v4"
+headers = {
+    "content-type": "application/json",
+    "Authorization": f"Bearer {token}",
+}
 
 
-def get_record_name(record_host):
-    return f"{record_host}.{zone_name}"
-
-
-def get_record_id(record_name, record_type):
-    url = base_url
-    params = {"name": record_name, "type": record_type}
+def get_zone(zone_name):
+    url = api_url + f"/zones"
+    params = {"name": zone_name}
     try:
         resp = requests.get(url, params=params, headers=headers, verify=False).json()
-        record_id = resp["result"][0]["id"]
-        return record_id
+        return resp["result"][0]
     except Exception as e:
         print(e)
         return None
 
 
-def update_record(record_id, record_name, record_type, record_content):
-    url = base_url + record_id
+def get_record(zone_id, record_name, record_type):
+    url = api_url + f"/zones/{zone_id}/dns_records"
+    params = {"name": record_name, "type": record_type}
+    try:
+        resp = requests.get(url, params=params, headers=headers, verify=False).json()
+        return resp["result"][0]
+    except Exception as e:
+        print(e)
+        return None
+
+
+def update_record(zone_id, record_id, record_name, record_type, record_content):
+    url = api_url + f"/zones/{zone_id}/dns_records/{record_id}"
     data = {
         "name": record_name,
         "type": record_type,
@@ -40,7 +41,6 @@ def update_record(record_id, record_name, record_type, record_content):
         "ttl": 60,
         "proxied": False,
     }
-
     try:
         resp = requests.put(url, json=data, headers=headers, verify=False).json()
         success = resp.get("success", False)

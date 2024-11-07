@@ -1,6 +1,6 @@
 import os
 import tomllib
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from dotenv import load_dotenv
 
@@ -14,9 +14,7 @@ toml_file = os.path.join(basedir, "config.toml")
 class Config:
     DEBUG: bool = False
 
-    CLOUDFLARE_TOKEN: str = None
-    CLOUDFLARE_ZONE_ID: str = None
-    CLOUDFLARE_ZONE_NAME: str = None
+    CLOUDFLARE_API_TOKEN: str = None
 
     AUTH_ENABLE: bool = None
     AUTH_USERNAME: str = None
