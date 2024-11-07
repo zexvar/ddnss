@@ -1,4 +1,4 @@
-import requests
+import httpx
 
 from app.settings import config
 
@@ -14,7 +14,7 @@ def get_zone(zone_name):
     url = api_url + f"/zones"
     params = {"name": zone_name}
     try:
-        resp = requests.get(url, params=params, headers=headers, verify=False).json()
+        resp = httpx.get(url, params=params, headers=headers, verify=False).json()
         return resp["result"][0]
     except Exception as e:
         print(e)
@@ -25,7 +25,7 @@ def get_record(zone_id, record_name, record_type):
     url = api_url + f"/zones/{zone_id}/dns_records"
     params = {"name": record_name, "type": record_type}
     try:
-        resp = requests.get(url, params=params, headers=headers, verify=False).json()
+        resp = httpx.get(url, params=params, headers=headers, verify=False).json()
         return resp["result"][0]
     except Exception as e:
         print(e)
@@ -42,7 +42,7 @@ def update_record(zone_id, record_id, record_name, record_type, record_content):
         "proxied": False,
     }
     try:
-        resp = requests.put(url, json=data, headers=headers, verify=False).json()
+        resp = httpx.put(url, json=data, headers=headers, verify=False).json()
         success = resp.get("success", False)
         return success
     except Exception as e:

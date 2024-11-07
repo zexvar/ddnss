@@ -1,5 +1,5 @@
 Flask
-python-dotenv
+httpx
 peewee
-requests
 waitress
+python-dotenv
