@@ -6,7 +6,7 @@ from app.core.resp import Rest
 from app.models import History, Record
 from app.utils import client, cloudflare, domain
 
-bp = Blueprint("dns", __name__, url_prefix="/dns")
+bp = Blueprint("api", __name__, url_prefix="/api")
 
 
 @bp.route("/")
