@@ -5,18 +5,16 @@ from playhouse.flask_utils import PaginatedQuery as PeeweePaginatedQuery
 
 
 def subclasses(clazz):
-    dedupe = set()
-    subclasses_list = []
+    result = []
 
     def collect_subclasses(cls):
         for subclass in cls.__subclasses__():
-            if subclass not in dedupe:
-                dedupe.add(subclass)
-                subclasses_list.append(subclass)
+            if subclass not in result:
+                result.append(subclass)
                 collect_subclasses(subclass)
 
     collect_subclasses(clazz)
-    return subclasses_list
+    return result
 
 
 class PeeweeORM:
@@ -53,22 +51,16 @@ class PeeweeORM:
             self.database.close()
 
     def create_all(self, ignore_base_model=True):
+        # Filter models associated with the current database
         models = [
             model
             for model in subclasses(Model)
-            if getattr(model, "_meta").database == self.database
+            if model._meta.database == self.database
             and (not ignore_base_model or not model.__name__.startswith("Base"))
         ]
+
         print(f"Database create tables: {models}")
         self.database.create_tables(models)
-
-    @property
-    def Model(self):
-        class BaseModel(Model):
-            class Meta:
-                database = self.database
-
-        return BaseModel
 
 
 class PaginatedQuery(PeeweePaginatedQuery):
