@@ -44,7 +44,9 @@ class Config:
 
 
 # read toml config
-with open(toml_file, "br") as f:
-    toml_config = tomllib.load(f)
+toml_config = {}
+if os.path.exists(toml_file) and os.path.isfile(toml_file):
+    with open(toml_file, "br") as f:
+        toml_config = tomllib.load(f)
 
 config = Config(**toml_config)
