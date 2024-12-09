@@ -10,12 +10,11 @@ services:
     volumes:
       - ./data:/ddnss/data
     environment:
-      - TZ=Asia/Shanghai
-      # - CLOUDFLARE_TOKEN = None
-      # - CLOUDFLARE_ZONE_ID = None
-      # - CLOUDFLARE_ZONE_NAME = None
+      - CLOUDFLARE_API_TOKEN = 123456
 
-      # - AUTH_ENABLE = true
+      # - AUTH_ENABLE = False
       # - AUTH_USERNAME = admin
       # - AUTH_PASSWORD = 123456
+
+      # - TZ=Asia/Shanghai
     restart: always
