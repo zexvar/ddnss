@@ -37,7 +37,7 @@ def update_record():
         return Rest.error("The record cannot be None!", status=400)
     if not type:
         return Rest.error("The IP is invalid!", status=400)
-
+    print(name, addr, type)
     # Retrieve or create the record
     try:
         record: Record = get_or_create_record(name, type)
@@ -73,7 +73,7 @@ def get_or_create_record(name, type):
         record_data = cloudflare.get_record(zone.id, name, type)
         if not record_data:
             raise Exception(f"Failed to retrieve record '{name}'!")
-        record = Record.create(**record_data)
+        record = Record.create(zone=zone, **record_data)
     return record
 
 
