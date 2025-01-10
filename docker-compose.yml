@@ -12,7 +12,7 @@ services:
       - ./data:/ddnss/data
     command: ["--expose-tracebacks"]
     environment:
-      - CLOUDFLARE_API_TOKEN=j9Yx3HUMsihxlPXhBinmQMsdvQiPCv3sie5oiWC0
+      - CLOUDFLARE_API_TOKEN=123456
       # - AUTH_ENABLE=True
       # - AUTH_USERNAME=admin
       # - AUTH_PASSWORD=123456
