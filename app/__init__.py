@@ -1,17 +1,17 @@
 from flask import Flask
 
-from app.blueprints import register_blueprints
-from app.core import register_components
-from app.extensions import register_extensions
-from app.settings import basedir, config
+from .blueprints import register_blueprints
+from .core import register_components
+from .extensions import register_extensions
+from .settings import BASEDIR, CONFIG
 
 
 def create_app():
     app = Flask(__name__)
 
-    # app.config.update(config)
-    app.instance_path = basedir
-    app.config.from_object(config)
+    app.instance_path = BASEDIR
+    app.config.from_object(CONFIG)
+    app.url_map.strict_slashes = False
 
     register_blueprints(app)
     register_extensions(app)

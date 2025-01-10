@@ -1,8 +1,8 @@
 import httpx
 
-from app.settings import config
+from app.settings import CONFIG
 
-token = config.CLOUDFLARE_API_TOKEN
+token = CONFIG.CLOUDFLARE_API_TOKEN
 api_url = "https://api.cloudflare.com/client/v4"
 headers = {
     "content-type": "application/json",
