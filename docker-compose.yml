@@ -5,16 +5,16 @@ services:
       context: ./
       dockerfile: Dockerfile
     container_name: ddnss
+    network_mode: bridge # set host for listen native ipv6
     ports:
       - 5533:5533
     volumes:
       - ./data:/ddnss/data
+    command: ["--expose-tracebacks"]
     environment:
-      - CLOUDFLARE_API_TOKEN = 123456
-
       # - AUTH_ENABLE = False
       # - AUTH_USERNAME = admin
       # - AUTH_PASSWORD = 123456
-
+      - CLOUDFLARE_API_TOKEN = 123456
       # - TZ=Asia/Shanghai
     restart: always
