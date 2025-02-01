@@ -7,12 +7,19 @@ from .resp import Html, Rest, response
 
 class Auth:
     @classmethod
-    def init_app(cls, app: Flask, enable=None, username=None, password=None, default_route=True):
+    def init_app(
+        cls,
+        app: Flask,
+        enable=None,
+        username=None,
+        password=None,
+        enable_builtin_route=True,
+    ):
         cls._app = app
         cls._enable = enable
         cls._username = username
         cls._password = password
-        cls._default_route = default_route
+        cls._builtin_route = enable_builtin_route
 
         if cls._enable is None:
             cls._enable = app.config.get("AUTH_ENABLE", False)
@@ -31,22 +38,24 @@ class Auth:
             b64auth = base64.b64encode(f"{cls._username}:{cls._password}".encode())
             cls._authorization = f"Basic {b64auth.decode()}"
 
-            if cls._default_route:
-                cls.add_default_route()
+            if cls._builtin_route:
+                cls.register_builtin_route()
 
     @classmethod
-    def add_default_route(cls):
+    def register_builtin_route(cls):
         app = cls._app
 
         # Add route for login
         @app.route("/login/", methods=["GET", "POST"])
         def login():
             if request.method == "GET":
-                print(request.values)
-                return Html.render("/login.jinja")
+                returnUrl = request.values.get("returnUrl", "/")
+                return Html.render("/login.jinja", returnUrl=returnUrl)
             else:
-                data = request.values
-                if data.get("username") == cls._username and data.get("password") == cls._password:
+                if (
+                    request.values.get("username") == cls._username
+                    and request.values.get("password") == cls._password
+                ):
                     resp = Rest.success("login success!")
                     resp.set_cookie("authorization", cls._authorization, max_age=3600)
                     return resp
@@ -83,7 +92,7 @@ class Auth:
                     headers = {"WWW-Authenticate": 'Basic realm="nologin"'}
                     return response(
                         Rest.error("Login required!", status=401, headers=headers),
-                        Html.render("/login.jinja"),
+                        Html.make(redirect(f"/login?returnUrl={request.path}")),
                     )
             return f(*args, **kwargs)
 
