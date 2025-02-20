@@ -1,7 +1,9 @@
+import math
+from dataclasses import dataclass
+
 from flask import Flask
-from peewee import Database, Model, Proxy
+from peewee import Database, Model, Proxy, SelectQuery
 from playhouse.db_url import connect
-from playhouse.flask_utils import PaginatedQuery as PeeweePaginatedQuery
 
 
 def subclasses(clazz):
@@ -28,9 +30,14 @@ class PeeweeORM:
     def init_app(self, app: Flask):
         self.app = app
         if not self._db:
-            self._db_url = self._db_url or app.config.get("DATABASE") or app.config["DATABASE_URL"]
+            self._db_url = (
+                self._db_url or app.config.get("DATABASE") or app.config["DATABASE_URL"]
+            )
             if not self._db_url:
-                raise ValueError("Missing required configuration data for " "database: DATABASE or DATABASE_URL.")
+                raise ValueError(
+                    "Missing required configuration data for "
+                    "database: DATABASE or DATABASE_URL."
+                )
             self._db = connect(self._db_url)
 
         if isinstance(self._db, Database):
@@ -63,16 +70,43 @@ class PeeweeORM:
         self.database.create_tables(models)
 
 
-class PaginatedQuery(PeeweePaginatedQuery):
-    def __init__(self, query_or_model, page, page_size, page_show=5):
-        super().__init__(query_or_model, page=page, paginate_by=page_size)
+@dataclass
+class Pagination:
+    prev: int = None
+    curr: int = None
+    next: int = None
+    count: int = None
 
-        page_max = self.get_page_count()
-        if page > page_max:
-            super().__init__(query_or_model, page=page_max, paginate_by=page_size)
 
-        self.max = page_max
-        self.size = page_size
-        self.prev = page - 1 if page - 1 >= 1 else None
-        self.next = page + 1 if page + 1 <= page_max else None
-        self.range = self.get_page_range(page, page_max, show=page_show)
+class OffsetPagination:
+    query: SelectQuery
+    limit: int
+    pagination: Pagination = None
+
+    def __init__(
+        self,
+        query: SelectQuery,
+        page: int = 1,
+        limit: int = 10,
+    ):
+        self.query = query
+        self.limit = limit
+
+        page = max(1, page)
+        count = math.ceil(query.count() / limit)
+
+        self.pagination = Pagination(
+            curr=page,
+            count=count,
+            prev=page - 1 if page - 1 >= 1 else None,
+            next=page + 1 if page + 1 <= count else None,
+        )
+
+    @property
+    def items(self):
+        return self.get_object_list() or []
+
+    def get_object_list(self):
+        if self.pagination.curr > self.pagination.count:
+            return None
+        return self.query.paginate(self.pagination.curr, self.limit)

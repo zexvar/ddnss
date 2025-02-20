@@ -17,18 +17,29 @@ def before():
 
 @bp.route("/")
 def index():
-    page = max(request.values.get("page", 1, type=int), 1)
-    page_size = request.values.get("page_size", 20, type=int)
+    page = request.values.get("page", 1, type=int)
+    limit = request.values.get("limit", 20, type=int)
+    print(request.values)
+    import logging
 
-    pagination = peewee.PaginatedQuery(
-        History.select().order_by(History.create_time.desc()),
-        page_size=page_size,
-        page=page,
-    )
+    # 打印生成的查询语句
+    logger = logging.getLogger("peewee")
+    logger.addHandler(logging.StreamHandler())
+    logger.setLevel(logging.DEBUG)
 
+    query = History.select(
+        History.id,
+        History.name,
+        History.type,
+        History.content,
+        History.success,
+        History.create_time,
+    ).order_by(History.create_time.desc())
+
+    result = peewee.OffsetPagination(query, page, limit)
     return Html.render(
         "history.jinja",
-        pagination=pagination,
-        object_list=pagination.get_object_list(),
-        status=400,
+        items=result.items,
+        pagination=result.pagination,
+        status=200,
     )
