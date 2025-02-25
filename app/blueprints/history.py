@@ -18,15 +18,7 @@ def before():
 @bp.route("/")
 def index():
     page = request.values.get("page", 1, type=int)
-    limit = request.values.get("limit", 20, type=int)
-    print(request.values)
-    import logging
-
-    # 打印生成的查询语句
-    logger = logging.getLogger("peewee")
-    logger.addHandler(logging.StreamHandler())
-    logger.setLevel(logging.DEBUG)
-
+    limit = request.values.get("limit", 10, type=int)
     query = History.select(
         History.id,
         History.name,
