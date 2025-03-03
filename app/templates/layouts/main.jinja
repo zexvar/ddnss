@@ -2,43 +2,46 @@
 
 <!-- body block -->
 {% block body %}
-
-<header class="page-header navbar flex-md-nowrap sticky-top shadow">
-  <a class="navbar-brand col-md-3 mx-3 fs-3 fw-bold" href="/">DDNSS</a>
-  <div class="navbar-nav">
-    <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="/logout">Sign out</a>
-    </div>
+<header class="navbar fixed top-0 left-0 w-full z-200 bg-base-300 text-base-content shadow-md">
+  <div class="navbar-start">
+    <label for="drawer-menu" class="btn btn-square btn-ghost lg:hidden">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        class="inline-block h-6 w-6 stroke-current"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </label>
+    <a class="btn btn-ghost text-xl" href="/">DDNSS</a>
+  </div>
+  <div class="navbar-end">
+    <a class="btn btn-ghost" href="/logout">Sign out</a>
   </div>
 </header>
 
-<div id="tab-contents" role="tabpanel" hx-get="/tab1" hx-trigger="load"></div>
-<section class="page-wrapper container-fluid d-flex justify-content-end">
-  <aside
-    class="page-sidebar position-fixed offcanvas offcanvas-start show"
-    data-bs-scroll="true"
-    data-bs-backdrop="false"
-    id="sidebar"
-  >
-    <div class="offcanvas-header visually-hidden" id="sidebtn">
-      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menu</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-    </div>
-    <nav
-      id="nav"
-      class="list-group list-group-flush"
+<section class="drawer lg:drawer-open top-16">
+  <input id="drawer-menu" type="checkbox" class="drawer-toggle" />
+  <aside class="drawer-side top-16 z-100 h-[calc(100vh-4rem)] shadow-md">
+    <label for="drawer-menu" class="drawer-overlay"></label>
+    <ul
+      id="menu"
+      class="menu menu-md min-h-full w-64 bg-base-200 text-base-content"
       hx-target="main"
       hx-on:htmx-after-on-load="
-      document.querySelector('#nav .active').classList.remove('active');
-      event.target.classList.add('active')
+      document.querySelector('#menu .menu-active').classList.remove('menu-active');
+      event.target.classList.add('menu-active')
       "
     >
-      <!-- <a class="list-group-item list-group-item-action" hx-get="/dashboard" hx-target="main"> Dashboard </a> -->
-      <a class="list-group-item list-group-item-action active" hx-get="/history" hx-target="main"> History </a>
-    </nav>
+      <!-- <li><a hx-get="/dashboard" hx-target="main"> Dashboard </a></li> -->
+      <li><a class="menu-active" hx-get="/history" hx-target="main"> History </a></li>
+    </ul>
   </aside>
 
-  <main class="page-content p-3" hx-get="/history" hx-trigger="load"></main>
+  <main class="drawer-content flex" hx-get="/history" hx-trigger="load">
+    <!-- Page content here -->
+  </main>
 </section>
 
 {% endblock %}

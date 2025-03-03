@@ -3,12 +3,13 @@
 <!-- body block -->
 {% block body %}
 
-<div class="d-flex container align-items-center justify-content-center vh-100">
-  <div class="card px-2 py-4 bg-danger">
-    <div class="card-body">
-      <h5 class="card-title fs-2">{% block error_title %} {% endblock %}</h5>
-      <h6 class="card-subtitle mb-3 text-muted fs-4">{% block error_content %} {% endblock %}</h6>
-      <p class="card-text fs-5">
+<div class="hero min-h-screen bg-error">
+  <div class="hero-overlay"></div>
+  <div class="hero-content text-neutral-content text-center">
+    <div class="max-w-md">
+      <h1 class="mb-5 text-5xl font-bold">{% block error_title %} {% endblock %}</h1>
+      <p class="mb-5">{% block error_content %} {% endblock %}</p>
+      <p>
         Something has gone wrong!
         <br />
         I'm probably working on something that has blown up.
@@ -16,5 +17,4 @@
     </div>
   </div>
 </div>
-
 {% endblock %}

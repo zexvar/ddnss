@@ -1,31 +1,16 @@
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="btn p-0 me-3" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
-      <span class="navbar-toggler-icon"></span>
-    </li>
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><a hx-get="/history" hx-target="main">History</a></li>
-  </ol>
-</nav>
-
-<h1 class="my-3 fw-bold">{% block table_title %}{% endblock table_title%}</h1>
-<div class="card p-3">
-  <div class="table-responsive">
-    <table class="table table-hover">
+<div class="card w-full p-3">
+  <div>
+    {% block breadcrumbs %}{% endblock breadcrumbs%}
+    <h1 class="my-3 fw-bold">{% block table_title %}{% endblock table_title%}</h1>
+    <table class="table">
       {% block table_content %}{% endblock table_content%}
     </table>
   </div>
-  <div class="row g-3">
-    <hr class="d-md-none m-2" style="border: 0px solid" />
-    <div class="col">
-      <label class="text-nowrap">
-        <span class="fw-bold">{{ pagination.count }} pages.</span>Current page is
-      </label>
-    </div>
+  <div class="row items-center justify-center">
     <div class="col align-items-center mt-3">
       <div class="pagination justify-content-center">
         <a
-          class="btn btn-dark {% if not pagination.prev %}disabled{% endif %}"
+          class="btn btn-dark {% if not pagination.prev %}btn-disabled{% endif %}"
           hx-get="/history?page={{ pagination.prev or '#' }}"
           hx-target="main"
           >&laquo;</a
@@ -35,7 +20,7 @@
 
         <a class="btn btn-dark" hx-get="/history?page=1" hx-target="main">1</a>
         {% if start > 2 %}
-        <span class="btn btn-dark disabled">...</span>
+        <span class="btn btn-dark btn-disabled">...</span>
         {% endif %} {% endif %} {% for item in range(start, end + 1) %}
         <a
           class="btn {% if item == pagination.curr %} btn-primary {% else %} btn-dark {% endif %}"
@@ -45,7 +30,7 @@
           {{ item }}
         </a>
         {% endfor %} {% if end < pagination.count %} {% if end < pagination.count - 1 %}
-        <span class="btn btn-dark disabled"> ...</span>
+        <span class="btn btn-dark btn-disabled"> ...</span>
         {% endif %}
         <a class="btn btn-dark" hx-get="/history?page={{ pagination.count }}" hx-target="main">{{
           pagination.count
@@ -53,7 +38,7 @@
         {% endif %}
 
         <a
-          class="btn btn-dark {% if not pagination.next %}disabled{% endif %}"
+          class="btn btn-dark {% if not pagination.next %}btn-disabled{% endif %}"
           hx-get="/history?page={{ pagination.next or '#' }}"
           hx-target="main"
           >&raquo;</a

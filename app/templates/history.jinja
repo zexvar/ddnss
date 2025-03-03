@@ -1,5 +1,15 @@
 {% extends "layouts/table.jinja" %}
 
+<!-- breadcrumbs block -->
+{% block breadcrumbs %}
+<div class="breadcrumbs text-sm">
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a a hx-get="/history" hx-target="main">History</a></li>
+  </ul>
+</div>
+{% endblock %}
+
 <!-- title block -->
 {% block title %} History {% endblock %}
 
@@ -20,13 +30,13 @@
 </thead>
 <tbody>
   {% for item in items %}
-  <tr>
+  <tr class="hover:bg-base-300">
     <td>{{ item.id }}</td>
     <td>{{ item.name }}</td>
     <td>{{ item.type }}</td>
     <td>{{ item.content }}</td>
     <td>
-      <span class="badge {% if item.success == False %} bg-danger {% else %} bg-success {% endif %}">
+      <span class="badge {% if item.success == False %} badge-error {% else %} badge-success" {% endif %}">
         {{ item.success }}
       </span>
     </td>
@@ -34,6 +44,5 @@
   </tr>
   {% endfor %}
 </tbody>
-
 
 {% endblock %}

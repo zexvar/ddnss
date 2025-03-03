@@ -1,19 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <title>{% block title %} {% endblock %} - DDNSS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  </head>
 
-<head>
-  <meta charset="utf-8" />
-  <title>{% block title %} {% endblock %} - DDNSS</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}" />
-</head>
-
-
-<body>
-  {% block body %} {% endblock %}
-  <script src="{{ url_for('static',filename='js/bootstrap.bundle.min.js') }}"></script>
-  <script src="{{ url_for('static',filename='js/htmx.min.js') }}"></script>
-</body>
-
+  <body>
+    {% block body %} {% endblock %}
+    <script src="https://unpkg.com/htmx.org@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </body>
 </html>
