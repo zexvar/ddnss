@@ -23,7 +23,6 @@
     <th>ID</th>
     <th>Name</th>
     <th>Type</th>
-    <th>Content</th>
     <th>Success</th>
     <th>Time</th>
   </tr>
@@ -34,7 +33,6 @@
     <td>{{ item.id }}</td>
     <td>{{ item.name }}</td>
     <td>{{ item.type }}</td>
-    <td>{{ item.content }}</td>
     <td>
       <span class="badge {% if item.success == False %} badge-error {% else %} badge-success" {% endif %}">
         {{ item.success }}
