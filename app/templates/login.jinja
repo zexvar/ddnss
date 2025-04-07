@@ -12,53 +12,57 @@
     const options = {
       method: "POST",
       body: form,
-      redirect: "follow"
+      redirect: "follow",
     };
 
     fetch("/login", options)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
+        const msg = document.getElementById("msg");
         if (data.error) {
-          var msg = document.getElementById("msg");
           msg.innerText = data.error;
-          if (!(msg.classList.contains("show"))) {
-            msg.classList.add("show");
-          }
+          msg.classList.remove("hidden");
           return;
         }
         const params = new URLSearchParams(location.search);
-        const returnUrl = params.get('returnUrl') || '/';
-        console.log(window.location.pathname);
-        console.log(returnUrl);
+        const returnUrl = params.get("returnUrl") || "/";
         window.location.pathname = returnUrl;
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        msg.innerText = "Unexpected error occurred.";
+        msg.classList.remove("hidden");
+      });
   }
 </script>
 
-<div class="d-flex container align-items-center justify-content-center vh-100">
-  <div class="card w-100" style="max-width: 360px;">
-    <div class="card-header text-center pt-3">
-      <p class="fs-3 fw-light">Sign in to DDNSS</p>
-    </div>
-    <div class="card-body mb-3">
-      <form id="form">
-        <div class="mb-3">
-          <label for="username" class="form-label">Username</label>
-          <input type="text" class="form-control" id="username" name="username" required>
+<div class="min-h-screen flex items-center justify-center bg-base-200">
+  <div class="card w-full max-w-sm bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h2 class="text-center text-2xl font-light">Sign in to DDNSS</h2>
+      <form id="form" onsubmit="return false;">
+        <div class="form-control mt-4">
+          <label class="label" for="username">
+            <span class="label-text">Username</span>
+          </label>
+          <input type="text" id="username" name="username" class="input input-bordered" required />
         </div>
-        <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" name="password" required>
+
+        <div class="form-control mt-4">
+          <label class="label" for="password">
+            <span class="label-text">Password</span>
+          </label>
+          <input type="password" id="password" name="password" class="input input-bordered" required />
         </div>
-        <label class="mb-3 text-danger collapse" id="msg">Error!</label>
-        <button type="button" class="btn btn-primary w-100" onclick="login()">Login</button>
+
+        <div id="msg" class="text-error text-sm mt-2 hidden">Error!</div>
+
+        <div class="form-control mt-6">
+          <button type="button" class="btn btn-primary" onclick="login()">Login</button>
+        </div>
       </form>
     </div>
   </div>
 </div>
-
-
-
 {% endblock %}
