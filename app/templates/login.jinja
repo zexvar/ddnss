@@ -7,41 +7,31 @@
 {% block body %}
 
 <script type="text/javascript">
-  function login() {
-    var form = new FormData(document.getElementById("form"));
-    const options = {
-      method: "POST",
-      body: form,
-      redirect: "follow",
-    };
-
-    fetch("/login", options)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        const msg = document.getElementById("msg");
-        if (data.error) {
-          msg.innerText = data.error;
-          msg.classList.remove("hidden");
-          return;
+  document.body.addEventListener("htmx:beforeSwap", (event) => {
+    const xhr = event.detail.xhr;
+    if (event.detail.target.id === "message") {
+      if (xhr.status !== 200) {
+        event.detail.serverResponse = "Unexpected error occurred.";
+      } else {
+        const json = JSON.parse(xhr.response);
+        if (json.error) {
+          event.detail.serverResponse = json.error;
+        } else {
+          event.detail.serverResponse = json.success;
+          const params = new URLSearchParams(location.search);
+          const returnUrl = params.get("returnUrl") || "/";
+          window.location.pathname = returnUrl;
         }
-        const params = new URLSearchParams(location.search);
-        const returnUrl = params.get("returnUrl") || "/";
-        window.location.pathname = returnUrl;
-      })
-      .catch((error) => {
-        console.error(error);
-        msg.innerText = "Unexpected error occurred.";
-        msg.classList.remove("hidden");
-      });
-  }
+      }
+    }
+  });
 </script>
 
 <div class="min-h-screen flex items-center justify-center bg-base-200">
   <div class="card w-full max-w-sm bg-base-100 shadow-xl">
     <div class="card-body">
       <h2 class="text-center text-2xl font-light">Sign in to DDNSS</h2>
-      <form id="form" onsubmit="return false;">
+      <form id="form" hx-post="/login" hx-trigger="submit" hx-target="#message" hx-swap="innerHTML">
         <div class="form-control mt-4">
           <label class="label" for="username">
             <span class="label-text">Username</span>
@@ -56,10 +46,9 @@
           <input type="password" id="password" name="password" class="input input-bordered" required />
         </div>
 
-        <div id="msg" class="text-error text-sm mt-2 hidden">Error!</div>
-
+        <div id="msg" class="text-error text-sm mt-2"></div>
         <div class="form-control mt-6">
-          <button type="button" class="btn btn-primary" onclick="login()">Login</button>
+          <button type="submit" class="btn btn-primary">Login</button>
         </div>
       </form>
     </div>
