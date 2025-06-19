@@ -47,8 +47,8 @@ cd ddnss && docker compose up -d
 - Wtih auth
 
   ```shell
-  curl -4 -L http://<username>:<password>@server:5533/api/update?hostname=www
-  curl -6 -L http://<username>:<password>@server:5533/api/update?hostname=www
+  curl -4 -L http://server:5533/api/update?hostname=www&token=123456
+  curl -6 -L http://server:5533/api/update?hostname=www&token=123456
   ```
 
 - With crontab

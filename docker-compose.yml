@@ -12,9 +12,9 @@ services:
       - ./data:/ddnss/data
     command: ["--expose-tracebacks"]
     environment:
-      - CLOUDFLARE_API_TOKEN=123456
-      # - AUTH_ENABLE=True
+      - TZ=Asia/Shanghai
+      # - AUTH_TOKEN=123456
       # - AUTH_USERNAME=admin
       # - AUTH_PASSWORD=123456
-      # - TZ=Asia/Shanghai
+      # - CLOUDFLARE_API_TOKEN=123456
     restart: always
