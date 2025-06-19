@@ -9,13 +9,8 @@ from app.utils import peewee
 bp = Blueprint("history", __name__, url_prefix="/history")
 
 
-@bp.before_request
-@Auth.required
-def before():
-    pass
-
-
 @bp.route("/")
+@Auth.session
 def index():
     page = request.values.get("page", 1, type=int)
     limit = request.values.get("limit", 10, type=int)

@@ -14,12 +14,13 @@ TOML_FILE = os.path.join(BASEDIR, "config.toml")
 class Config:
     DEBUG: bool = False
 
-    AUTH_ENABLE: bool = None
+    AUTH_TOKEN: str = None
     AUTH_USERNAME: str = None
     AUTH_PASSWORD: str = None
 
     CLOUDFLARE_API_TOKEN: str = None
 
+    SECRET_KEY: str = os.urandom(32).hex()
     DATABASE_URL: str = f"sqlite:///{BASEDIR}/data.db"
 
     @staticmethod

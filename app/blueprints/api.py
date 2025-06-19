@@ -15,7 +15,7 @@ def client_ip_info():
 
 
 @bp.route("/update")
-@Auth.required
+@Auth.token
 def update_record():
     name = (
         request.values.get("hostname")

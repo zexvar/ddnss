@@ -6,6 +6,6 @@ bp = Blueprint("index", __name__)
 
 
 @bp.route("/")
-@Auth.required
+@Auth.session
 def index():
     return Html.render("index.jinja")
