@@ -6,7 +6,12 @@ from flask import Flask, Response, jsonify, make_response, render_template, requ
 class Rest(Response):
     @classmethod
     def make(cls, success, message, data=None, status=None, headers=None):
-        content = {"data": data, "time": datetime.now(), "success" if success else "error": message}
+        content: dict = {
+            "time": datetime.now(),
+            "success" if success else "error": message,
+        }
+        if data:
+            content["data"] = data
         return make_response(jsonify(content), status, headers)
 
     @classmethod
@@ -29,11 +34,8 @@ class Html(Response):
 
 
 def response(rest: Response, html: Response):
-    """
-    Return html or rest by `accept header`.
-    """
-    accept = request.headers.get("accept", "*/*")
-    return html if "text/html" in accept else rest
+    """Return rest or html by accept mimetypes."""
+    return rest if request.is_json else html
 
 
 def register_resp_handler(app: Flask):
