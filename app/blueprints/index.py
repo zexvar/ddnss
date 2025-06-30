@@ -1,4 +1,5 @@
-from app.blueprints import Blueprint
+from flask import Blueprint
+
 from app.core.auth import Auth
 from app.core.resp import Html
 

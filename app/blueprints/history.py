@@ -1,6 +1,5 @@
-from flask import request
+from flask import Blueprint, request
 
-from app.blueprints import Blueprint
 from app.core.auth import Auth
 from app.core.resp import Html
 from app.models import History
