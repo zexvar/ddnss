@@ -2,11 +2,8 @@ import os
 import tomllib
 from dataclasses import dataclass
 
-from dotenv import load_dotenv
-
 # basedir for instance_path
 BASEDIR = os.path.abspath("data")
-ENV_FILE = os.path.join(BASEDIR, "config.env")
 TOML_FILE = os.path.join(BASEDIR, "config.toml")
 
 
@@ -43,19 +40,11 @@ class Config:
                 setattr(self, key, self.convert_type(value, type))
 
 
-def load_config():
-    # load env config
-    if os.path.exists(ENV_FILE):
-        load_dotenv(ENV_FILE)
-    else:
-        load_dotenv(verbose=True)
-
-    # load toml config
+def load_config() -> Config:
     if os.path.exists(TOML_FILE):
-        with open(TOML_FILE, "br") as f:
+        with open(TOML_FILE, "rb") as f:
             return Config(**tomllib.load(f))
-    else:
-        return Config()
+    return Config()
 
 
 CONFIG = load_config()

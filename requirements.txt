@@ -2,4 +2,3 @@ Flask
 httpx
 peewee
 waitress
-python-dotenv
