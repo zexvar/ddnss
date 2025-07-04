@@ -36,7 +36,7 @@ def update_record():
         return Rest.error("The record cannot be None!", status=400)
     if not type:
         return Rest.error("The IP is invalid!", status=400)
-    print(name, addr, type)
+
     # Retrieve or create the record
     try:
         record: Record = get_or_create_record(name, type)

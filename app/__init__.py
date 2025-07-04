@@ -13,9 +13,9 @@ def create_app():
     app.config.from_object(CONFIG)
     app.url_map.strict_slashes = False
 
-    register_blueprints(app)
-    register_extensions(app)
     register_components(app)
+    register_extensions(app)
+    register_blueprints(app)
     return app
 
 

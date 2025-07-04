@@ -1,10 +1,10 @@
-import traceback
-
+from .log import logger
 from .resp import Html, Rest, response
 
 
 def error_response(e, template, status=500):
-    traceback.print_exception(e)
+    if status == 500:
+        logger.exception(f"Error occurred: {e}")
     return response(
         Rest.error(str(e), status=status),
         Html.render(template, status=status),

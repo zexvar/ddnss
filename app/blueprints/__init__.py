@@ -5,6 +5,8 @@ from pathlib import Path
 
 from flask import Blueprint, Flask
 
+from app.core.log import logger
+
 _blueprints: set[Blueprint] = set()
 
 
@@ -34,11 +36,11 @@ def register_blueprints(app: Flask, scan_path=None):
             # Import file or package module
             if is_module(path):
                 module = import_module(path_to_module(path))
-                print(f"[+] Import module: {module.__name__}")
+                logger.info(f"Import module: {module.__name__}")
                 for _, member in getmembers(module):
                     if isinstance(member, Blueprint):
                         _blueprints.add(member)
 
     for bp in _blueprints:
-        print(f"[+] Register blueprint: {bp.import_name} {bp.url_prefix}")
+        logger.info(f"Register blueprint: {bp.import_name} {bp.url_prefix}")
         app.register_blueprint(bp)
