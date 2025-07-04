@@ -5,6 +5,8 @@ from flask import Flask
 from peewee import Database, Model, Proxy, SelectQuery
 from playhouse.db_url import connect
 
+from app.core.log import logger
+
 
 def subclasses(clazz):
     result = []
@@ -65,8 +67,7 @@ class PeeweeORM:
             if model._meta.database == self.database
             and (not ignore_base_model or not model.__name__.startswith("Base"))
         ]
-
-        print(f"Database create tables: {models}")
+        logger.debug(f" * Database create tables: {models}")
         self.database.create_tables(models)
 
 
