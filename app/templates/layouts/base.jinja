@@ -2,14 +2,14 @@
 <html lang="en" data-bs-theme="dark">
   <head>
     <meta charset="utf-8" />
-    <title>{% block title %} {% endblock %} - DDNSS</title>
+    <title>DDNSS - {% block title %}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="{{ url_for('static',filename='css/daisyui.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/daisyui.css') }}" />
+    <script src="{{ url_for('static',filename='js/tailwindcss.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/htmx.min.js') }}"></script>
   </head>
 
   <body>
-    {% block body %} {% endblock %}
-    <script src="{{ url_for('static',filename='js/htmx.min.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/tailwindcss.js') }}"></script>
+    {% block body %}{% endblock %}
   </body>
 </html>
