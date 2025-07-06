@@ -77,11 +77,11 @@ class Pagination:
     curr: int = None
     next: int = None
     count: int = None
+    limit: int = None
 
 
 class OffsetPagination:
     query: SelectQuery
-    limit: int
     pagination: Pagination = None
 
     def __init__(
@@ -91,7 +91,6 @@ class OffsetPagination:
         limit: int = 10,
     ):
         self.query = query
-        self.limit = limit
 
         page = max(1, page)
         count = math.ceil(query.count() / limit)
@@ -99,6 +98,7 @@ class OffsetPagination:
         self.pagination = Pagination(
             curr=page,
             count=count,
+            limit=limit,
             prev=page - 1 if page - 1 >= 1 else None,
             next=page + 1 if page + 1 <= count else None,
         )
@@ -110,4 +110,4 @@ class OffsetPagination:
     def get_object_list(self):
         if self.pagination.curr > self.pagination.count:
             return None
-        return self.query.paginate(self.pagination.curr, self.limit)
+        return self.query.paginate(self.pagination.curr, self.pagination.limit)
