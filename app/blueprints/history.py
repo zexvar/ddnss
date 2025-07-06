@@ -17,6 +17,7 @@ def index():
         History.id,
         History.name,
         History.type,
+        History.content,
         History.success,
         History.create_time,
     ).order_by(History.create_time.desc())
