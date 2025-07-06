@@ -1,49 +1,51 @@
-<div class="card w-full p-3">
-  <div>
-    {% block breadcrumbs %}{% endblock breadcrumbs%}
-    <h1 class="my-3 fw-bold">{% block table_title %}{% endblock table_title%}</h1>
-    <table class="table">
-      {% block table_content %}{% endblock table_content%}
-    </table>
-  </div>
-  <div class="row items-center justify-center">
-    <div class="col align-items-center mt-3">
-      <div class="pagination justify-content-center">
-        <a
-          class="btn btn-dark {% if not pagination.prev %}btn-disabled{% endif %}"
-          hx-get="/history?page={{ pagination.prev or '#' }}"
-          hx-target="main"
-          >&laquo;</a
-        >
-        {% set delta = 2 %} {% set start = pagination.curr - delta if pagination.curr - delta > 1 else 1 %} {% set end =
-        pagination.curr + delta if pagination.curr + delta < pagination.count else pagination.count %} {% if start> 1 %}
+<div class="w-full">
+  {% block breadcrumbs %}{% endblock breadcrumbs %}
+  <h1 class="my-3 text-xl font-bold">
+    {% block table_title %}{% endblock table_title %}
+  </h1>
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body p-4 overflow-x-auto">
+      <table class="table">
+        {% block table_content %}{% endblock table_content %}
+      </table>
+      <div class="card-actions">
+        {% set delta = 2 %}
+        {% set curr, prev, next, count, limit = pagination.curr, pagination.prev, pagination.next,
+        pagination.count, pagination.limit%}
+        {% set start = [curr - delta, 1]|max %}
+        {% set end = [curr + delta, count]|min %}
+        {% if end - start < delta * 2 %}{% set start=[end - delta * 2, 1]|max %} {% set end=[start + delta * 2,
+          count]|min %}{% endif %} <div class="flex flex-1">
+          <label class="label text-sm">
+            <span class="text-base-content font-bold">{{ count }} pages.</span>
+            Results per page
+            <select name="limit" id="limit" class="select" hx-get="/history?page=1" hx-target="main" hx-include="#limit"
+              hx-trigger="change">
+              <option value="10" {% if limit==10 %}selected{% endif %}>
+                10
+              </option>
+              <option value="50" {% if limit==50 %}selected{% endif %}>
+                50
+              </option>
+              <option value="100" {% if limit==100 %}selected{% endif %}>
+                100
+              </option>
+            </select>
+          </label>
+      </div>
+      <div class="join flex" hx-include="#limit">
+        <input class="join-item btn btn-square {% if not prev %}btn-disabled{% endif %}" type="radio" name="options"
+          aria-label="&laquo;" hx-get="/history?page={{ prev }}" hx-target="main" />
 
-        <a class="btn btn-dark" hx-get="/history?page=1" hx-target="main">1</a>
-        {% if start > 2 %}
-        <span class="btn btn-dark btn-disabled">...</span>
-        {% endif %} {% endif %} {% for item in range(start, end + 1) %}
-        <a
-          class="btn {% if item == pagination.curr %} btn-primary {% else %} btn-dark {% endif %}"
-          hx-get="/history?page={{ item or '#' }}"
-          hx-target="main"
-        >
-          {{ item }}
-        </a>
-        {% endfor %} {% if end < pagination.count %} {% if end < pagination.count - 1 %}
-        <span class="btn btn-dark btn-disabled"> ...</span>
-        {% endif %}
-        <a class="btn btn-dark" hx-get="/history?page={{ pagination.count }}" hx-target="main">{{
-          pagination.count
-        }}</a>
-        {% endif %}
+        {% for item in range(start, end + 1) %}
+        <input class="join-item btn btn-square" {% if item==curr %}checked="checked" {% endif %} type="radio"
+          name="options" aria-label="{{ item }}" hx-get="/history?page={{ item }}" hx-target="main" />
+        {% endfor %}
 
-        <a
-          class="btn btn-dark {% if not pagination.next %}btn-disabled{% endif %}"
-          hx-get="/history?page={{ pagination.next or '#' }}"
-          hx-target="main"
-          >&raquo;</a
-        >
+        <input class="join-item btn btn-square {% if not next %}btn-disabled{% endif %}" type="radio" name="options"
+          aria-label="&raquo;" hx-get="/history?page={{ next }}" hx-target="main" />
       </div>
     </div>
   </div>
+</div>
 </div>
