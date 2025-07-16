@@ -1,0 +1,14 @@
+{
+  "overrides": [
+    {
+      "files": "**/*.jinja",
+      "options": {
+        "tabWidth": 2,
+        "printWidth": 120,
+        "singleAttributePerLine": false,
+        "parser": "jinja-template"
+      }
+    }
+  ],
+  "plugins": ["prettier-plugin-jinja-template", "prettier-plugin-tailwindcss"]
+}
