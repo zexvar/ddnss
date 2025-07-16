@@ -2,7 +2,7 @@
 
 <!-- body block -->
 {% block body %}
-  <nav class="navbar z-100 bg-base-100 fixed left-0 top-0 w-screen shadow-md">
+  <nav class="navbar bg-base-100 fixed top-0 left-0 z-100 w-screen shadow-md">
     <div class="navbar-start">
       <label for="drawer-menu" class="btn btn-ghost btn-square lg:hidden">
         <svg
@@ -76,11 +76,11 @@
 
   <section class="drawer lg:drawer-open top-16">
     <input id="drawer-menu" type="checkbox" class="drawer-toggle" />
-    <aside class="drawer-side z-200 max-w-screen top-16 h-[calc(100vh-4rem)] shadow-md">
+    <aside class="drawer-side top-16 z-200 h-[calc(100vh-4rem)] max-w-screen shadow-md">
       <label for="drawer-menu" class="drawer-overlay"></label>
       <ul
         id="menu"
-        class="menu w-70 bg-base-100 m-0 h-full p-0"
+        class="menu bg-base-100 m-0 h-full w-70 p-0"
         hx-target="main"
         hx-on:htmx-after-on-load="
       htmx.findAll('#menu a').forEach(a => htmx.removeClass(a, 'menu-active'));
@@ -152,8 +152,7 @@
     </aside>
 
     <main class="drawer-content bg-base-200 flex min-h-full p-4" hx-get="/history" hx-trigger="load">
-    <!-- Page content here -->
-  </main>
-</section>
-
+      <!-- Page content here -->
+    </main>
+  </section>
 {% endblock %}

@@ -2,19 +2,18 @@
 
 <!-- body block -->
 {% block body %}
-
-<div class="hero min-h-screen bg-error">
-  <div class="hero-overlay"></div>
-  <div class="hero-content text-neutral-content text-center">
-    <div class="max-w-md">
-      <h1 class="mb-5 text-5xl font-bold">{% block error_title %} {% endblock %}</h1>
-      <p class="mb-5">{% block error_content %} {% endblock %}</p>
-      <p>
-        Something has gone wrong!
-        <br />
-        I'm probably working on something that has blown up.
-      </p>
+  <div class="hero bg-error min-h-screen">
+    <div class="hero-overlay"></div>
+    <div class="hero-content text-neutral-content text-center">
+      <div class="max-w-md">
+        <h1 class="mb-5 text-5xl font-bold">{% block error_title %}{% endblock %}</h1>
+        <p class="mb-5">{% block error_content %}{% endblock %}</p>
+        <p>
+          Something has gone wrong!
+          <br />
+          I'm probably working on something that has blown up.
+        </p>
+      </div>
     </div>
   </div>
-</div>
 {% endblock %}

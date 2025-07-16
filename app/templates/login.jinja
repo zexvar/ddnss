@@ -5,45 +5,45 @@
 
 <!-- body block -->
 {% block body %}
-<script type="text/javascript">
-  function errorTemplate(message) {
-    return `<div class="text-error">${message}</div>`;
-  }
-
-  htmx.on("htmx:beforeSwap", (event) => {
-    const xhr = event.detail.xhr;
-
-    if (event.detail.target.id !== "message") return;
-    if (xhr.status !== 200) {
-      event.detail.serverResponse = errorTemplate("Unexpected error occurred.");
-      return;
+  <script type="text/javascript">
+    function errorTemplate(message) {
+      return `<div class="text-error">${message}</div>`;
     }
 
-    const json = JSON.parse(xhr.response);
-    event.detail.serverResponse = json.error ? errorTemplate(json.error) : json.success;
+    htmx.on("htmx:beforeSwap", (event) => {
+      const xhr = event.detail.xhr;
 
-    if (json.success) {
-      const returnUrl = new URL(location).searchParams.get("returnUrl") || "/";
-      window.location.href = returnUrl;
-    }
-  });
-</script>
+      if (event.detail.target.id !== "message") return;
+      if (xhr.status !== 200) {
+        event.detail.serverResponse = errorTemplate("Unexpected error occurred.");
+        return;
+      }
 
-<div class="hero bg-base-200 h-screen">
-  <div class="hero-content">
-    <div class="card bg-base-100 w-sm shadow-2xl">
-      <div class="card-body">
-        <form class="fieldset" hx-post="/login" hx-trigger="submit" hx-target="#message">
-          <legend class="fieldset-legend text-5xl font-bold">DDNSS</legend>
-          <label for="username" class="label">Username</label>
-          <input id="username" name="username" placeholder="Username" type="text" class="input" />
-          <label for="password" class="label">Password</label>
-          <input id="password" name="password" placeholder="Password" type="password" class="input" />
-          <div id="message" class="mb-2 mt-1">Please log in to continue.</div>
-          <button type="submit" class="btn btn-neutral">Login</button>
-        </form>
+      const json = JSON.parse(xhr.response);
+      event.detail.serverResponse = json.error ? errorTemplate(json.error) : json.success;
+
+      if (json.success) {
+        const returnUrl = new URL(location).searchParams.get("returnUrl") || "/";
+        window.location.href = returnUrl;
+      }
+    });
+  </script>
+
+  <div class="hero bg-base-200 h-screen">
+    <div class="hero-content">
+      <div class="card bg-base-100 w-sm shadow-2xl">
+        <div class="card-body">
+          <form class="fieldset" hx-post="/login" hx-trigger="submit" hx-target="#message">
+            <legend class="fieldset-legend text-5xl font-bold">DDNSS</legend>
+            <label for="username" class="label">Username</label>
+            <input id="username" name="username" placeholder="Username" type="text" class="input" />
+            <label for="password" class="label">Password</label>
+            <input id="password" name="password" placeholder="Password" type="password" class="input" />
+            <div id="message" class="mt-1 mb-2">Please log in to continue.</div>
+            <button type="submit" class="btn btn-neutral">Login</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
 {% endblock %}
