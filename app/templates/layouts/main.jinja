@@ -18,7 +18,7 @@
     </div>
     <div class="navbar-end md:gap-1 lg:gap-2">
       <label class="swap swap-flip">
-        <input type="checkbox" class="theme-controller" value="dark" />
+        <input type="checkbox" class="theme-controller" />
         <div class="btn btn-ghost swap-on">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -155,4 +155,16 @@
       <!-- Page content here -->
     </main>
   </section>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const darkmode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const checkbox = document.querySelector(".theme-controller");
+      checkbox.checked = darkmode;
+      checkbox.addEventListener("change", () => {
+        const theme = checkbox.checked ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", theme);
+      });
+    });
+  </script>
 {% endblock %}
