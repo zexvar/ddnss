@@ -24,7 +24,7 @@
               name="limit"
               id="limit"
               class="select"
-              hx-get="/history?page=1"
+              hx-get="{{ url }}?page=1"
               hx-target="main"
               hx-include="#limit"
               hx-trigger="change"
@@ -41,7 +41,7 @@
             type="radio"
             name="options"
             aria-label="&laquo;"
-            hx-get="/history?page={{ prev }}"
+            hx-get="{{ url }}?page={{ prev }}"
             hx-target="main"
           />
 
@@ -52,7 +52,7 @@
               type="radio"
               name="options"
               aria-label="{{ item }}"
-              hx-get="/history?page={{ item }}"
+              hx-get="{{ url }}?page={{ item }}"
               hx-target="main"
             />
           {% endfor %}
@@ -62,7 +62,7 @@
             type="radio"
             name="options"
             aria-label="&raquo;"
-            hx-get="/history?page={{ next }}"
+            hx-get="{{ url }}?page={{ next }}"
             hx-target="main"
           />
         </div>

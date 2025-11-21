@@ -5,13 +5,13 @@
   <div class="breadcrumbs text-sm">
     <ul>
       <li><a href="/">Home</a></li>
-      <li>History</li>
+      <li>Record</li>
     </ul>
   </div>
 {% endblock %}
 
 <!-- table_title block -->
-{% block table_title %}History{% endblock %}
+{% block table_title %}Record{% endblock %}
 
 <!-- table_content block -->
 {% block table_content %}
@@ -21,7 +21,6 @@
       <th class="uppercase">name</th>
       <th class="uppercase">type</th>
       <th class="uppercase">content</th>
-      <th class="uppercase">success</th>
       <th class="uppercase">time</th>
     </tr>
   </thead>
@@ -32,11 +31,6 @@
         <td>{{ item.name }}</td>
         <td>{{ item.type }}</td>
         <td>{{ item.content }}</td>
-        <td>
-          <span class="badge badge-soft {% if item.success == False %}badge-error{% else %}badge-success"{% endif %}">
-            {{ item.success }}
-          </span>
-        </td>
         <td>{{ item.create_time.strftime("%Y-%m-%d %H:%M:%S") }}</td>
       </tr>
     {% endfor %}
